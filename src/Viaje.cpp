@@ -10,3 +10,12 @@ Viaje::Viaje(int codigo, DTFecha fecha, std::string origen, std::string destino,
 }
 
 Viaje::~Viaje() {}
+
+std::string Viaje::getNicknameConductor() {
+    // 2.2.1.1: nickConductor := getNickname()
+    return this->vehiculo->getNicknameConductor(); 
+}
+
+DTListarViaje Viaje::getDTListarViaje(std::string nickConductor) {
+    return DTListarViaje(this->codigo, this->fecha, this->origen, this->destino, nickConductor);
+}

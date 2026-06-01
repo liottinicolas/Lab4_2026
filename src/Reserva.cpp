@@ -6,3 +6,10 @@ Reserva::Reserva(int asientosReservados, DTFecha fecha) {
 }
 
 Reserva::~Reserva() {}
+
+DTListarViaje Reserva::getDTListarViaje() {
+    // 2.2.1: nickConductor := getNicknameConductor()
+    std::string nickConductor = this->viaje->getNicknameConductor();
+    
+    return this->viaje->getDTListarViaje(nickConductor); 
+}

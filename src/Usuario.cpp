@@ -8,3 +8,7 @@ Usuario::Usuario(std::string nickname, std::string nombre, std::string contrasen
 }
 
 Usuario::~Usuario() {}
+
+DTUsuario Usuario::getDTUsuario() {
+    return DTUsuario(this->nickname, this->nombre); 
+}
