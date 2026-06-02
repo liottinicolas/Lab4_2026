@@ -7,6 +7,19 @@ Usuario::Usuario(std::string nickname, std::string nombre, std::string contrasen
     this->email = email;
 }
 
+std::string Usuario::getNickname(){
+    return this->nickname;
+}
+std::string Usuario::getNombre(){
+    return this->nombre;
+}
+std::string Usuario::getContrasena(){
+    return this->contrasena;
+}
+std::string Usuario::getEmail(){
+    return this->email;
+}
+
 Usuario::~Usuario() {}
 
 DTUsuario Usuario::getDTUsuario() {

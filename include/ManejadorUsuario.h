@@ -12,12 +12,14 @@ using namespace std;
 class ManejadorUsuario {
 private:
     static ManejadorUsuario* instancia;
-    set(DTUsuario) usuarios;
+    std::map<std::string, Usuario*> usuarios;
+    //set(DTUsuario) usuarios;
     ManejadorUsuario();
 
 public:
     Usuario* find(string nickname);
-    bool existe(string nickname);    
+    bool existe(string nickname);
+    void agregarUsuario(Usuario* nuevo_usuario);
     bool existeVehiculo(string matricula);
     map<string, Usuario*> obtenerUsuarios();
     static ManejadorUsuario* getInstancia();

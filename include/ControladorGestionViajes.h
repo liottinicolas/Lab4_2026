@@ -5,6 +5,7 @@
 #include "DTListarViaje.h"
 #include <string>
 #include <vector>
+#include <map>
 #include "ManejadorViaje.h"
 
 class ControladorGestionViajes : public IControladorGestionViajes {
