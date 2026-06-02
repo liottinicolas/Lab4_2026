@@ -6,39 +6,26 @@
 
 class ControladorUsuario : public IControladorUsuario {
 private:
-    ManejadorUsuario* mu;
+  static ControladorUsuario *instancia;
+  ControladorUsuario();
+
+  ManejadorUsuario *mu;
 
 public:
-    ControladorUsuario();
+  static ControladorUsuario *getInstancia();
 
-    bool altaPasajero(
-        string nickname,
-        string nombre,
-        string contrasena,
-        string email,
-        string ci
-    );
-    
-bool altaConductor(
-        string nickname,
-        string nombre,
-        string contrasena,
-        string email,
-        set<TipoLibreta> libretas
-    );
+  bool altaPasajero(string nickname, string nombre, string contrasena,
+                    string email, string ci);
 
-    int registrarVehiculo(
-        string nickname,
-        string matricula,
-        int capacidad,
-        string marca,
-        string modelo,
-        TipoVehiculo tipo
-    );
-    
-    set<DTUsuario> listarUsuarios();
-    void listarVehiculosConductor();
-    set<string> listarPasajeros();
+  bool altaConductor(string nickname, string nombre, string contrasena,
+                     string email, set<TipoLibreta> libretas);
+
+  int registrarVehiculo(string nickname, string matricula, int capacidad,
+                        string marca, string modelo, TipoVehiculo tipo);
+
+  set<DTUsuario> listarUsuarios();
+  void listarVehiculosConductor();
+  set<string> listarPasajeros();
 };
 
 #endif

@@ -1,0 +1,15 @@
+# VS Code configuration
+.vscode/
+
+# Clangd
+.clangd/
+
+# Compiled object files
+*.o
+*.obj
+
+# Executables
+*.exe
+*.out
+
+.clangd
