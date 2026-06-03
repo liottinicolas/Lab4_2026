@@ -15,6 +15,26 @@ void Vehiculo::setConductor(Conductor* c) {
     this->conductor = c;
 }
 
+std::string Vehiculo::getMatricula() {
+    return this->matricula;
+}
+
+int Vehiculo::getCapacidad() {
+    return this->capacidad;
+}
+
+std::string Vehiculo::getMarca() {
+    return this->marca;
+}
+
+std::string Vehiculo::getModelo() {
+    return this->modelo;
+}
+
+TipoVehiculo Vehiculo::getTipo() {
+    return this->tipo;
+}
+
 std::string Vehiculo::getNicknameConductor() {
     // 2.2.1.1.1: nick := getNickname()
     return this->conductor->getNickname(); 

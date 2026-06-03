@@ -20,3 +20,23 @@ std::vector<DTListarViaje> Conductor::obtenerDTListarViajes() {
     
     return dtViajes;
 }
+
+void Conductor::agregarVehiculo(Vehiculo* v) {
+    this->vehiculos.push_back(v);
+}
+
+std::set<TipoLibreta> Conductor::getLibretas() {
+    return this->libretas;
+}
+
+void Conductor::setLibretas(std::set<TipoLibreta> libretas) {
+    this->libretas = libretas;
+}
+
+std::vector<Vehiculo*> Conductor::getVehiculos() {
+    return this->vehiculos;
+}
+
+void Conductor::setVehiculos(std::vector<Vehiculo*> vehiculos) {
+    this->vehiculos = vehiculos;
+}

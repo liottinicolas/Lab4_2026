@@ -23,6 +23,7 @@ public:
 
   std::vector<DTListarViaje> listarViajes(std::string nickname) override;
   std::vector<DTListarViaje> listarViajes() override;
+  std::vector<DTConsultaViaje> consultarViajes(DTFecha fecha, std::string origen, std::string destino, int asientos) override;
 };
 
 #endif

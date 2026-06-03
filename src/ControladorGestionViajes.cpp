@@ -45,3 +45,12 @@ std::vector<DTListarViaje> ControladorGestionViajes::listarViajes() {
 
   return lista;
 }
+
+std::vector<DTConsultaViaje>
+ControladorGestionViajes::consultarViajes(DTFecha fecha, std::string origen,
+                                          std::string destino, int asientos) {
+  std::vector<DTConsultaViaje> resultado;
+  // 1
+  resultado = mv->consultarViajes(fecha, origen, destino, asientos);
+  return resultado;
+}

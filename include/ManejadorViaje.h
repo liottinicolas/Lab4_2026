@@ -2,7 +2,10 @@
 #define MANEJADORVIAJE_H
 
 #include <map>
+#include <vector>
 #include "Viaje.h"
+#include "DTConsultaViaje.h"
+#include "DTFecha.h"
 
 class ManejadorViaje {
 private:
@@ -18,6 +21,8 @@ public:
     std::map<int, Viaje*> obtenerViajes();
     
     void agregarViaje(Viaje* v); 
+
+    std::vector<DTConsultaViaje> consultarViajes(DTFecha fecha, std::string origen, std::string destino, int asientos);
 };
 
 #endif

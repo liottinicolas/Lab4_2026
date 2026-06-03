@@ -23,6 +23,12 @@ public:
     // listarViajes
     void agregarVehiculo(Vehiculo* v);
     std::vector<DTListarViaje> obtenerDTListarViajes() override;
+
+    std::set<TipoLibreta> getLibretas();
+    void setLibretas(std::set<TipoLibreta> libretas);
+
+    std::vector<Vehiculo*> getVehiculos();
+    void setVehiculos(std::vector<Vehiculo*> vehiculos);
 };
 
 #endif

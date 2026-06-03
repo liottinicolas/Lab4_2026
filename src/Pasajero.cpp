@@ -18,3 +18,23 @@ std::vector<DTListarViaje> Pasajero::obtenerDTListarViajes() {
     
     return dtViajes;
 }
+
+void Pasajero::agregarReserva(Reserva* r) {
+    this->reservas.push_back(r);
+}
+
+std::string Pasajero::getCi() {
+    return this->ci;
+}
+
+void Pasajero::setCi(std::string ci) {
+    this->ci = ci;
+}
+
+std::vector<Reserva*> Pasajero::getReservas() {
+    return this->reservas;
+}
+
+void Pasajero::setReservas(std::vector<Reserva*> reservas) {
+    this->reservas = reservas;
+}

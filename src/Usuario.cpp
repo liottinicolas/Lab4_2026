@@ -20,6 +20,19 @@ std::string Usuario::getEmail(){
     return this->email;
 }
 
+void Usuario::setNickname(std::string nickname){
+    this->nickname = nickname;
+}
+void Usuario::setNombre(std::string nombre){
+    this->nombre = nombre;
+}
+void Usuario::setContrasena(std::string contrasena){
+    this->contrasena = contrasena;
+}
+void Usuario::setEmail(std::string email){
+    this->email = email;
+}
+
 Usuario::~Usuario() {}
 
 DTUsuario Usuario::getDTUsuario() {

@@ -18,8 +18,15 @@ public:
     Reserva(int asientosReservados, DTFecha fecha);
     ~Reserva();
 
+    int getAsientosReservados();
+    void setAsientosReservados(int asientosReservados);
+
+    DTFecha getFecha();
+    void setFecha(DTFecha fecha);
+
     //listarViaje
     void setViaje(Viaje* v);
+    Viaje* getViaje();
     DTListarViaje getDTListarViaje();
 };
 

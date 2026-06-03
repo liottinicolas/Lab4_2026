@@ -23,9 +23,17 @@ public:
     Vehiculo(std::string matricula, int capacidad, std::string marca, std::string modelo, TipoVehiculo tipo);
     ~Vehiculo();
     
-    // listarViajes
-    void setConductor(Conductor* c);
+    // Getters
+    std::string getMatricula();
+    int getCapacidad();
+    std::string getMarca();
+    std::string getModelo();
+    TipoVehiculo getTipo();
     std::string getNicknameConductor();
+
+    // Setters
+    void setConductor(Conductor* c);
+    
     std::vector<DTListarViaje> obtenerDTListarViajes(std::string nickname);
 };
 
