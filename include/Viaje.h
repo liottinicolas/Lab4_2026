@@ -18,6 +18,7 @@ private:
 
   // listarViajes
   Vehiculo *vehiculo;
+  std::vector<Reserva*> Reservas;
 
 public:
   Viaje(int codigo, DTFecha fecha, std::string origen, std::string destino,
@@ -43,6 +44,7 @@ public:
 
   std::string getNicknameConductor();
   DTListarViaje getDTListarViaje(std::string nickConductor);
+  std::vector<DTUsuario> listaUsuariosViaje();
 };
 
 #endif

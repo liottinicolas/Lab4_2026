@@ -18,6 +18,7 @@ public:
                                                        int asientos) = 0;
 
   virtual ~IControladorGestionViajes() {}
+  virtual std::vector<DTUsuario> listarUsuariosViaje(int codigo) = 0;
 };
 
 #endif

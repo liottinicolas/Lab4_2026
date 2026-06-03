@@ -54,3 +54,8 @@ ControladorGestionViajes::consultarViajes(DTFecha fecha, std::string origen,
   resultado = mv->consultarViajes(fecha, origen, destino, asientos);
   return resultado;
 }
+
+std::vector<DTUsuario> ControladorGestionViajes::listarUsuariosViaje(int codigo){
+  Viaje vi = mv->find(codigo);                     // 1. Busca el viaje en el manejador
+  return vi.listaUsuarios();                       // 2. Devuelve el set de los usuarios del viaje
+}

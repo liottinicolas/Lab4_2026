@@ -60,3 +60,16 @@ bool Viaje::verificarViaje(DTFecha fecha, std::string origen,
   return (this->fecha == fecha && this->origen == origen &&
           this->destino == destino && this->asientosPublicados >= asientos);
 }
+
+std::vector<DTUsuario> Viaje::listarUsuariosViaje(){
+  std vector<DTUsuario> = us;
+  if(!this->Reservas->empty()){
+    for (const Reserva& r: Reservas){
+      DTUsuario u = r->Usuario->getDTUsuario;
+      us.push_back(u);
+    }
+  }
+  DTUsuario c = getDTUsuario(this->vehiculo->conductor);
+  us.push_back(c);
+  return us;
+}

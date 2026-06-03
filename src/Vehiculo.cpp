@@ -51,3 +51,11 @@ std::vector<DTListarViaje> Vehiculo::obtenerDTListarViajes(std::string nickname)
     
     return lista;
 }
+
+bool Vehiculo::EsDueño(std::string nickname){
+    return nickname == getNicknameConductor();
+}
+
+std::DTUsuario Vehiculo::ObtenerDTUsCond(){
+    return this->conductor.getDTUsuario();
+}
