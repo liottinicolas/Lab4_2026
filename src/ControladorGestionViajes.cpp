@@ -50,7 +50,7 @@ std::vector<DTConsultaViaje>
 ControladorGestionViajes::consultarViajes(DTFecha fecha, std::string origen,
                                           std::string destino, int asientos) {
   std::vector<DTConsultaViaje> resultado;
-  // 1
+  // 1 TODO TERMINAR.
   resultado = mv->consultarViajes(fecha, origen, destino, asientos);
   return resultado;
 }
