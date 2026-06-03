@@ -12,6 +12,7 @@ protected:
     std::string nombre;
     std::string contrasena;
     std::string email;
+    std::vector<calificacion> calificaciones;
 
 public:
     Usuario(std::string nickname, std::string nombre, std::string contrasena, std::string email);
@@ -28,7 +29,8 @@ public:
 
     DTUsuario getDTUsuario();
     virtual std::vector<DTListarViaje> obtenerDTListarViajes() = 0;
-
+    bool ExisteCal(Usuario& calificado, Reserva& r);
+    bool calificarUs(Usuario& calificado, Reserva& r, int calificacion, DTFecha fechaSistema);
     virtual ~Usuario();
 };
 

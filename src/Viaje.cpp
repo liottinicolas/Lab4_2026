@@ -61,15 +61,46 @@ bool Viaje::verificarViaje(DTFecha fecha, std::string origen,
           this->destino == destino && this->asientosPublicados >= asientos);
 }
 
-std::vector<DTUsuario> Viaje::listarUsuariosViaje(){
-  std vector<DTUsuario> = us;
+std::vector<DTUsuario> Viaje::listaUsuarios(std::string nicknameActor){
+  std::vector<DTUsuario> = us;
   if(!this->Reservas->empty()){
     for (const Reserva& r: Reservas){
-      DTUsuario u = r->Usuario->getDTUsuario;
-      us.push_back(u);
+      if (nicknameActor != getNickname(r->)){
+        DTUsuario u = r.getPasajero()->getDTUsuario;
+        us.push_back(u);
+      }
     }
   }
-  DTUsuario c = getDTUsuario(this->vehiculo->conductor);
-  us.push_back(c);
+  if (nicknameActor != this->vehiculo.getNicknameConductor()){
+    DTUsuario c = this->vehiculo.ObtenerDTUsCond();
+    us.push_back(c);
+  }
   return us;
+}
+
+bool Viaje::calificarUsViaje(Usuario& calificador, Usuario& calificado, int calificacion){
+  bool a = this->vehiculo.EsDueño(nicknameActor);
+  if (a) {
+    bool a1 = false;
+    auto it = Reservas.begin();
+    while(!a1){
+      if ((it.getPasajero()).getNickname() == calificado.getNickname()){
+        a1 = true;
+      } else {
+        it++;
+      }
+    }
+    return it.calificarUsRes(calificador, calificado, calificacion);
+  } else {
+    bool a2 = false;
+    auto it = Reservas.begin();
+    while(!a2){
+      if ((it.getPasajero()).getNickname() == calificador.getNickname()){
+        a2 = true;
+      } else {
+        it++;
+      }
+    }
+    return it.calificarUsRes(calificador, calificado, calificacion);
+  }
 }

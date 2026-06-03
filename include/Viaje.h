@@ -44,7 +44,8 @@ public:
 
   std::string getNicknameConductor();
   DTListarViaje getDTListarViaje(std::string nickConductor);
-  std::vector<DTUsuario> listaUsuariosViaje();
+  std::vector<DTUsuario> listaUsuarios(std::string nicknameActor);
+  bool calificarUsViaje(Usuario& calificador, Usuario& calificado, int calificacion);
 };
 
 #endif

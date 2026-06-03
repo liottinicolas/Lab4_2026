@@ -37,3 +37,16 @@ void Reserva::setViaje(Viaje* v) {
 Viaje* Reserva::getViaje() {
     return this->viaje;
 }
+
+Pasajero* Reserva::getPasajero(){
+    return this->pasajero;
+}
+
+bool Reserva::calificarUsRes(Usuario& calificador, Usuario& calificado, int calificacion){
+    bool a = calificador.ExisteCal(calificado, this);
+    if(!a) {
+        // Preguntar en monitoreo como obtener fecha sistema
+        calificador.calificarUs(calificado, this, calificacion, fechaSistema);
+    }
+    return !a;
+}

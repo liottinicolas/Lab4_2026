@@ -5,6 +5,7 @@
 #include "DTListarViaje.h"
 
 class Viaje;
+class Usuario;
 
 class Reserva {
 private:
@@ -13,6 +14,7 @@ private:
 
     // listarViaje
     Viaje* viaje;
+    Pasajero* pasajero;
 
 public:
     Reserva(int asientosReservados, DTFecha fecha);
@@ -28,6 +30,10 @@ public:
     void setViaje(Viaje* v);
     Viaje* getViaje();
     DTListarViaje getDTListarViaje();
+
+    //calificarUsuario
+    Pasajero* getPasajero;
+    bool calificarUsRes(Usuario& calificador, Usuario& calificado, int calificacion);
 };
 
 #endif

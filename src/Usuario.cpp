@@ -38,3 +38,25 @@ Usuario::~Usuario() {}
 DTUsuario Usuario::getDTUsuario() {
     return DTUsuario(this->nickname, this->nombre); 
 }
+
+bool Usuario::ExisteCal(Usuario& u, Reserva& r) {
+    if(!calificaciones.empty()){
+        auto it = calificaciones.begin();
+        bool a = false;
+        while(!a && it.reservas.end()){
+            if((it.getCalificado->getNickname == u.getNickname) && (r.getViaje->getCodigo == it.getReserva->getViaje->getCodigo)){
+                a = true;
+            } else {
+                it++;
+            }
+        }
+        return a;
+    } else {
+        return false;
+    }
+}
+
+void Usuario::calificarUs(Usuario& calificado, Reserva& r, int calificacion, DTFecha fechaSistema){
+    cal = Calificacion(fechaSistema, calificacion, this, calificado, r);
+    this->calificaciones.push_back(cal);
+}

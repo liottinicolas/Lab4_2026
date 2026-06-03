@@ -1,8 +1,11 @@
 #include "../include/Calificacion.h"
 
-Calificacion::Calificacion(DTFecha fecha, int puntaje) {
+Calificacion::Calificacion(DTFecha fecha, int puntaje, Usuario& calificador, Usuario& calificado, Reserva& r) {
     this->fecha = fecha;
     this->puntaje = puntaje;
+    this->calificador = calificador;
+    this->calificado = calificado;
+    this->reserva = r;
 }
 
 Calificacion::~Calificacion() {}
@@ -13,6 +16,18 @@ DTFecha Calificacion::getFecha() {
 
 int Calificacion::getPuntaje() {
     return this->puntaje;
+}
+
+Usuario* Calificacion::getCalificado(){
+    return this->calificado;
+}
+
+Usuario* Calificacion::getCalificador(){
+    return this->calificador;
+}
+
+Reserva* Calificacion::getReserva(){
+    return this->reserva
 }
 
 void Calificacion::setFecha(DTFecha fecha) {

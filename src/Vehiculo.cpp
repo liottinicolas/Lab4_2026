@@ -56,6 +56,6 @@ bool Vehiculo::EsDueño(std::string nickname){
     return nickname == getNicknameConductor();
 }
 
-std::DTUsuario Vehiculo::ObtenerDTUsCond(){
+DTUsuario Vehiculo::ObtenerDTUsCond(){
     return this->conductor.getDTUsuario();
 }

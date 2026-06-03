@@ -17,6 +17,8 @@ private:
 
   ManejadorUsuario *mu;
   ManejadorViaje *mv;
+  std::string nicknameActor;
+  int codigoActor;
 
 public:
   static ControladorGestionViajes *getInstancia();
@@ -24,7 +26,8 @@ public:
   std::vector<DTListarViaje> listarViajes(std::string nickname) override;
   std::vector<DTListarViaje> listarViajes() override;
   std::vector<DTConsultaViaje> consultarViajes(DTFecha fecha, std::string origen, std::string destino, int asientos) override;
-  std::vector<DTUsuario> listarUsuariosViaje(int codigo) override;
+  std::vector<DTUsuario> listarUsuariosViaje(int codigo, std::string nickname) override;
+  bool calificarUsuario(std::string nicknameCalificado, int calificacion) override;
 };
 
 #endif

@@ -36,7 +36,7 @@ public:
     
     std::vector<DTListarViaje> obtenerDTListarViajes(std::string nickname);
     bool EsDueño(std::string nickname);
-    std::DTUsuario ObtenerDTUsCond(); 
+    DTUsuario ObtenerDTUsCond(); 
 };
 
 #endif

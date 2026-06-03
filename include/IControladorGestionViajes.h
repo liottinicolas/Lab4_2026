@@ -19,6 +19,7 @@ public:
 
   virtual ~IControladorGestionViajes() {}
   virtual std::vector<DTUsuario> listarUsuariosViaje(int codigo) = 0;
+  virtual bool calificarUsuario(std::string nicknameCalificado, int calificacion) = 0;
 };
 
 #endif
