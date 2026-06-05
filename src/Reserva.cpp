@@ -42,6 +42,10 @@ Pasajero* Reserva::getPasajero(){
     return this->pasajero;
 }
 
+void Reserva::setPasajero(Pasajero* p) {
+    this->pasajero = p;
+}
+
 bool Reserva::calificarUsRes(Usuario& calificador, Usuario& calificado, int calificacion){
     bool a = calificador.ExisteCal(calificado, this);
     if(!a) {

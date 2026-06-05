@@ -21,6 +21,8 @@ public:
     std::map<int, Viaje*> obtenerViajes();
     
     void agregarViaje(Viaje* v); 
+    
+    Viaje* find(int codigo);
 
     std::vector<DTConsultaViaje> consultarViajes(DTFecha fecha, std::string origen, std::string destino, int asientos);
 };

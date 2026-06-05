@@ -32,7 +32,8 @@ public:
     DTListarViaje getDTListarViaje();
 
     //calificarUsuario
-    Pasajero* getPasajero;
+    Pasajero* getPasajero();
+    void setPasajero(Pasajero* p);
     bool calificarUsRes(Usuario& calificador, Usuario& calificado, int calificacion);
 };
 

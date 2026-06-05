@@ -1,5 +1,7 @@
 #include "../include/Viaje.h"
+#include "../include/Pasajero.h"
 #include "../include/Vehiculo.h"
+
 
 Viaje::Viaje(int codigo, DTFecha fecha, std::string origen, std::string destino,
              int asientosPublicados, float precio) {
@@ -57,34 +59,68 @@ DTListarViaje Viaje::getDTListarViaje(std::string nickConductor) {
 
 bool Viaje::verificarViaje(DTFecha fecha, std::string origen,
                            std::string destino, int asientos) {
-  return (this->fecha == fecha && this->origen == origen &&
-          this->destino == destino && this->asientosPublicados >= asientos);
+  if (!(this->fecha == fecha && this->origen == origen &&
+        this->destino == destino)) {
+    return false;
+  }
+
+  int totalReservados = 0;
+  for (std::vector<Reserva *>::iterator it = this->reservas.begin();
+       it != this->reservas.end(); ++it) {
+    totalReservados += (*it)->getAsientosReservados();
+  }
+
+  return this->asientosPublicados >= (totalReservados + asientos);
 }
 
-std::vector<DTUsuario> Viaje::listaUsuarios(std::string nicknameActor){
-  std::vector<DTUsuario> = us;
-  if(!this->Reservas->empty()){
-    for (const Reserva& r: Reservas){
-      if (nicknameActor != getNickname(r->)){
+bool Viaje::validarViaje(std::string nickname, int asientos) {
+  for (std::vector<Reserva *>::iterator it = this->reservas.begin();
+       it != this->reservas.end(); ++it) {
+    if ((*it)->getPasajero()->getNickname() == nickname) {
+      return false;
+    }
+  }
+
+  int totalReservados = 0;
+  for (std::vector<Reserva *>::iterator it = this->reservas.begin();
+       it != this->reservas.end(); ++it) {
+    totalReservados += (*it)->getAsientosReservados();
+  }
+
+  return (this->asientosPublicados - totalReservados) >= asientos;
+}
+
+void Viaje::agregarReserva(Reserva *r) {
+  if (r != nullptr) {
+    this->reservas.push_back(r);
+  }
+}
+
+std::vector<DTUsuario> Viaje::listaUsuarios(std::string nicknameActor) {
+  std::vector<DTUsuario> us;
+  if (!this->Reservas->empty()) {
+    for (const Reserva &r : Reservas) {
+      if (nicknameActor != getNickname(r->)) {
         DTUsuario u = r.getPasajero()->getDTUsuario;
         us.push_back(u);
       }
     }
   }
-  if (nicknameActor != this->vehiculo.getNicknameConductor()){
+  if (nicknameActor != this->vehiculo.getNicknameConductor()) {
     DTUsuario c = this->vehiculo.ObtenerDTUsCond();
     us.push_back(c);
   }
   return us;
 }
 
-bool Viaje::calificarUsViaje(Usuario& calificador, Usuario& calificado, int calificacion){
+bool Viaje::calificarUsViaje(Usuario &calificador, Usuario &calificado,
+                             int calificacion) {
   bool a = this->vehiculo.EsDueño(nicknameActor);
   if (a) {
     bool a1 = false;
     auto it = Reservas.begin();
-    while(!a1){
-      if ((it.getPasajero()).getNickname() == calificado.getNickname()){
+    while (!a1) {
+      if ((it.getPasajero()).getNickname() == calificado.getNickname()) {
         a1 = true;
       } else {
         it++;
@@ -93,9 +129,9 @@ bool Viaje::calificarUsViaje(Usuario& calificador, Usuario& calificado, int cali
     return it.calificarUsRes(calificador, calificado, calificacion);
   } else {
     bool a2 = false;
-    auto it = Reservas.begin();
-    while(!a2){
-      if ((it.getPasajero()).getNickname() == calificador.getNickname()){
+    auto it = reservas.begin();
+    while (!a2) {
+      if ((it.getPasajero()).getNickname() == calificador.getNickname()) {
         a2 = true;
       } else {
         it++;
@@ -103,4 +139,8 @@ bool Viaje::calificarUsViaje(Usuario& calificador, Usuario& calificado, int cali
     }
     return it.calificarUsRes(calificador, calificado, calificacion);
   }
+}
+
+DTConsultaViaje Viaje::datosViaje() {
+  return this->vehiculo->datosVehiculoYChofer(this->codigo, this->precio);
 }

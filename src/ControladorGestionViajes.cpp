@@ -1,8 +1,12 @@
 #include "../include/ControladorGestionViajes.h"
+#include "../include/ControladorFechaActual.h"
 #include "../include/ManejadorUsuario.h"
 #include "../include/ManejadorViaje.h"
+#include "../include/Pasajero.h"
+#include "../include/Reserva.h"
 #include "../include/Usuario.h"
 #include "../include/Viaje.h"
+
 
 ControladorGestionViajes *ControladorGestionViajes::instancia = nullptr;
 
@@ -58,15 +62,22 @@ ControladorGestionViajes::consultarViajes(DTFecha fecha, std::string origen,
   return resultado;
 }
 
-std::vector<DTUsuario> ControladorGestionViajes::listarUsuariosViaje(int codigo){
-  this->codigoActor = codigo;                                   // 0. Guarda en memoria el codigo de viaje
-  Viaje vi = mv->find(codigo);                                  // 1. Busca el viaje en el manejador
-  return vi.listaUsuarios(std::string this->nicknameActor);     // 2. Devuelve el set de los usuarios del viaje
+std::vector<DTUsuario>
+ControladorGestionViajes::listarUsuariosViaje(int codigo) {
+  this->codigoActor = codigo;  // 0. Guarda en memoria el codigo de viaje
+  Viaje vi = mv->find(codigo); // 1. Busca el viaje en el manejador
+  return vi.listaUsuarios(
+      std::string this
+          ->nicknameActor); // 2. Devuelve el set de los usuarios del viaje
 }
 
-bool ControladorGestionViajes::calificarUsuario(std::string nicknameCalificado, int calificacion){
-  Viaje vi = mv->find(codigoActor);                  // 1. Busca la instancia del viaje
-  Usuario u = mu->find(nicknameActor);               // 2. Busca la instancia del calificador
-  Usuario uc = mu->find(nicknameCalificado);         // 3. Busca la instancia del calificado
-  return vi.calificarUsViaje(u , uc , calificacion); // 4. Califica el usuario con las instancias si se dan las condiciones
+bool ControladorGestionViajes::calificarUsuario(std::string nicknameCalificado,
+                                                int calificacion) {
+  Viaje vi = mv->find(codigoActor);    // 1. Busca la instancia del viaje
+  Usuario u = mu->find(nicknameActor); // 2. Busca la instancia del calificador
+  Usuario uc =
+      mu->find(nicknameCalificado); // 3. Busca la instancia del calificado
+  return vi.calificarUsViaje(
+      u, uc, calificacion); // 4. Califica el usuario con las instancias si se
+                            // dan las condiciones
 }

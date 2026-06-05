@@ -3,12 +3,15 @@
 
 #include "DTFecha.h"
 
+class Usuario;
+class Reserva;
+
 class Calificacion {
 private:
     DTFecha fecha;
     int puntaje;
     Usuario* calificado;
-    Usario* calificador;
+    Usuario* calificador;
     Reserva* reserva;
 
 public:

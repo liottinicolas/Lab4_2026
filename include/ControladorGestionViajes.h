@@ -3,12 +3,12 @@
 
 #include "DTListarViaje.h"
 #include "IControladorGestionViajes.h"
-#include "ManejadorViaje.h"
 #include "ManejadorUsuario.h"
+#include "ManejadorViaje.h"
+#include <map>
 #include <string>
 #include <vector>
-#include <map>
-#include "ManejadorViaje.h"
+
 
 class ControladorGestionViajes : public IControladorGestionViajes {
 private:
@@ -25,9 +25,15 @@ public:
 
   std::vector<DTListarViaje> listarViajes(std::string nickname) override;
   std::vector<DTListarViaje> listarViajes() override;
-  std::vector<DTConsultaViaje> consultarViajes(DTFecha fecha, std::string origen, std::string destino, int asientos) override;
-  std::vector<DTUsuario> listarUsuariosViaje(int codigo, std::string nickname) override;
-  bool calificarUsuario(std::string nicknameCalificado, int calificacion) override;
+  std::vector<DTConsultaViaje> consultarViajes(DTFecha fecha,
+                                               std::string origen,
+                                               std::string destino,
+                                               int asientos) override;
+  std::vector<DTUsuario> listarUsuariosViaje(int codigo,
+                                             std::string nickname) override;
+  bool calificarUsuario(std::string nicknameCalificado,
+                        int calificacion) override;
+  bool generarReserva(std::string nickname, int codigo, int asientos) override;
 };
 
 #endif

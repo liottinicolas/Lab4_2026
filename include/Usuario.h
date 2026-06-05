@@ -5,6 +5,7 @@
 #include <vector>
 #include "DTUsuario.h"
 #include "DTListarViaje.h"
+#include "Calificacion.h"
 
 class Usuario {
 protected:
@@ -12,11 +13,12 @@ protected:
     std::string nombre;
     std::string contrasena;
     std::string email;
-    std::vector<calificacion> calificaciones;
+    std::vector<Calificacion> calificaciones;
 
 public:
     Usuario(std::string nickname, std::string nombre, std::string contrasena, std::string email);
     
+    float promedioCalificaciones();
     std::string getNickname();
     std::string getNombre();
     std::string getContrasena();

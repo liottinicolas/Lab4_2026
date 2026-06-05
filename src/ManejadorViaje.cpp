@@ -19,6 +19,14 @@ void ManejadorViaje::agregarViaje(Viaje *v) {
   }
 }
 
+Viaje* ManejadorViaje::find(int codigo) {
+  auto it = this->viajes.find(codigo);
+  if (it != this->viajes.end()) {
+    return it->second;
+  }
+  return nullptr;
+}
+
 std::vector<DTConsultaViaje>
 ManejadorViaje::consultarViajes(DTFecha fecha, std::string origen,
                                 std::string destino, int asientos) {
@@ -29,8 +37,7 @@ ManejadorViaje::consultarViajes(DTFecha fecha, std::string origen,
     // 1.2
     bool ok = v->verificarViaje(fecha, origen, destino, asientos);
     if (ok) {
-      DTConsultaViaje datosViaje = v->getDTConsultaViaje(asientos);
-      // TODO - ARREGLAR QUE ESTO NO ES, SEGUIR
+      DTConsultaViaje datosViaje = v->datosViaje();
       resultado.push_back(datosViaje);
     }
   }

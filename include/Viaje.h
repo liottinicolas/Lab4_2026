@@ -3,7 +3,10 @@
 
 #include "DTFecha.h"
 #include "DTListarViaje.h"
+#include "DTUsuario.h"
+#include "Reserva.h"
 #include <string>
+#include <vector>
 
 class Vehiculo;
 
@@ -18,7 +21,7 @@ private:
 
   // listarViajes
   Vehiculo *vehiculo;
-  std::vector<Reserva*> Reservas;
+  std::vector<Reserva *> reservas;
 
 public:
   Viaje(int codigo, DTFecha fecha, std::string origen, std::string destino,
@@ -45,7 +48,14 @@ public:
   std::string getNicknameConductor();
   DTListarViaje getDTListarViaje(std::string nickConductor);
   std::vector<DTUsuario> listaUsuarios(std::string nicknameActor);
-  bool calificarUsViaje(Usuario& calificador, Usuario& calificado, int calificacion);
+  bool calificarUsViaje(Usuario &calificador, Usuario &calificado,
+                        int calificacion);
+  bool verificarViaje(DTFecha fecha, std::string origen, std::string destino,
+                      int asientos);
+  bool validarViaje(std::string nickname, int asientos);
+  void agregarReserva(Reserva *r);
+
+  DTConsultaViaje datosViaje();
 };
 
 #endif
