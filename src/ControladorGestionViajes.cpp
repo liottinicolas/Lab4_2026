@@ -7,7 +7,6 @@
 #include "../include/Usuario.h"
 #include "../include/Viaje.h"
 
-
 ControladorGestionViajes *ControladorGestionViajes::instancia = nullptr;
 
 ControladorGestionViajes::ControladorGestionViajes() {
@@ -80,4 +79,39 @@ bool ControladorGestionViajes::calificarUsuario(std::string nicknameCalificado,
   return vi.calificarUsViaje(
       u, uc, calificacion); // 4. Califica el usuario con las instancias si se
                             // dan las condiciones
+}
+
+bool ControladorGestionViajes::generarReserva(std::string nickname, int codigo,
+                                              int asientos) {
+  // 1. Busca el viaje en el manejador
+  Viaje *vi = mv->find(codigo);
+  if (vi == nullptr) {
+    return false;
+  }
+
+  // 2. Valida las condiciones del viaje (si ya reservó y si hay lugar)
+  bool viajeOk = vi->validarViaje(nickname, asientos);
+  if (!viajeOk) {
+    return false;
+  }
+
+  // 3. Si el viaje es válido, obtiene la instancia del Pasajero
+  Usuario *u = mu->find(nickname);
+  Pasajero *p = dynamic_cast<Pasajero *>(u);
+  if (p == nullptr) {
+    return false;
+  }
+
+  // 4. Obtiene la fecha actual del sistema y crea la Reserva
+  ControladorFechaActual *cfa = ControladorFechaActual::getInstance();
+  DTFecha fechaActual = cfa->getFecha();
+  Reserva *r = new Reserva(asientos, fechaActual);
+
+  // 5. Vincula los objetos
+  r->setViaje(vi);
+  r->setPasajero(p);
+  vi->agregarReserva(r);
+  p->agregarReserva(r);
+
+  return true;
 }

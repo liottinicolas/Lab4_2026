@@ -2,7 +2,6 @@
 #include "../include/Pasajero.h"
 #include "../include/Vehiculo.h"
 
-
 Viaje::Viaje(int codigo, DTFecha fecha, std::string origen, std::string destino,
              int asientosPublicados, float precio) {
   this->codigo = codigo;
@@ -74,13 +73,15 @@ bool Viaje::verificarViaje(DTFecha fecha, std::string origen,
 }
 
 bool Viaje::validarViaje(std::string nickname, int asientos) {
+  // 2.1 recorre las reservas para ver si el usuario ya reservó en este viaje
   for (std::vector<Reserva *>::iterator it = this->reservas.begin();
        it != this->reservas.end(); ++it) {
+    // 2.2 valida si el usuario ya reservó en este viaje
     if ((*it)->getPasajero()->getNickname() == nickname) {
       return false;
     }
   }
-
+  // 2.3 Si no reservó, calcula el total de asientos disponibles
   int totalReservados = 0;
   for (std::vector<Reserva *>::iterator it = this->reservas.begin();
        it != this->reservas.end(); ++it) {
