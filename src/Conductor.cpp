@@ -8,6 +8,15 @@ Conductor::Conductor(std::string nickname, std::string nombre,
   this->libretas = libs;
 }
 
+bool Conductor::hayViajesFechaConductor(DTFecha fecha) {
+  for (Vehiculo *vc : this->vehiculos) {
+    if (vc->hayViajesFecha(fecha)) {
+      return true;
+    }
+  }
+  return false;
+}
+
 Conductor::~Conductor() {}
 
 std::vector<DTListarViaje> Conductor::obtenerDTListarViajes() {
@@ -48,3 +57,4 @@ std::vector<Vehiculo *> Conductor::getVehiculos() { return this->vehiculos; }
 void Conductor::setVehiculos(std::vector<Vehiculo *> vehiculos) {
   this->vehiculos = vehiculos;
 }
+

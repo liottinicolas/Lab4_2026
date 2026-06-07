@@ -3,6 +3,7 @@
 
 #include "DTConsultaViaje.h"
 #include "DTListarViaje.h"
+#include "DTUsuario.h"
 #include "TipoVehiculo.h"
 #include <string>
 #include <vector>
@@ -43,6 +44,10 @@ public:
   DTUsuario ObtenerDTUsCond();
 
   DTConsultaViaje datosVehiculoYChofer(int codigo, float precio);
+  std::vector<Viaje *> getViajes();
+  void agregarViaje(Viaje *vi);
+  bool hayViajesConductor(DTFecha fecha);
+  bool hayViajesFecha(DTFecha fecha);
 };
 
 #endif

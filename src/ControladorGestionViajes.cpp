@@ -2,10 +2,12 @@
 #include "../include/Conductor.h"
 #include "../include/ControladorFechaActual.h"
 #include "../include/ManejadorUsuario.h"
+#include "../include/ManejadorVehiculos.h"
 #include "../include/ManejadorViaje.h"
 #include "../include/Pasajero.h"
 #include "../include/Reserva.h"
 #include "../include/Usuario.h"
+#include "../include/Vehiculo.h"
 #include "../include/Viaje.h"
 
 ControladorGestionViajes *ControladorGestionViajes::instancia = nullptr;
@@ -120,5 +122,33 @@ bool ControladorGestionViajes::generarReserva(std::string nickname, int codigo,
   vi->agregarReserva(r);
   p->agregarReserva(r);
 
+  return true;
+}
+
+bool ControladorGestionViajes::altaViaje(std::string matricula, DTFecha fecha,
+                                         std::string origen,
+                                         std::string destino, int asientos,
+                                         float precio) {
+  // 1 obtengo la instancia
+  ManejadorVehiculos *mve = ManejadorVehiculos::getInstancia();
+  // 2 obtengo el vehiculo
+  Vehiculo *v = mve->find(matricula);
+
+  int capacidad = v->getCapacidad();
+  // 3 si asientos es mayor que la capacidad retorno false
+  if (asientos > capacidad) {
+    return false;
+  }
+
+  // 4 verifico si hay viajes con la fecha indicada
+  // si hay viajes con la misma fecha retorno false
+  bool hayViajesFecha = v->hayViajesConductor(fecha);
+  if (hayViajesFecha) {
+    return false;
+  }
+
+  // 5. Crea la instancia de Viaje (en el manejador)
+  Viaje *cvi = mv->crearViaje(v, fecha, origen, destino, asientos, precio);
+  v->agregarViaje(cvi);
   return true;
 }

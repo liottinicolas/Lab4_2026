@@ -1,8 +1,11 @@
 #include "../include/ManejadorViaje.h"
+#include "../include/Vehiculo.h"
 
 ManejadorViaje *ManejadorViaje::instancia = nullptr;
 
-ManejadorViaje::ManejadorViaje() {}
+ManejadorViaje::ManejadorViaje() {
+  this->ultimoViaje = 0;
+}
 
 ManejadorViaje *ManejadorViaje::getInstance() {
   if (instancia == nullptr) {
@@ -43,4 +46,22 @@ ManejadorViaje::consultarViajes(DTFecha fecha, std::string origen,
   }
 
   return resultado;
+}
+
+int ManejadorViaje::obtenerCodigo() {
+  this->ultimoViaje++;
+  return this->ultimoViaje;
+}
+
+Viaje* ManejadorViaje::crearViaje(Vehiculo* v, DTFecha fecha, std::string origen, std::string destino, int asientos, float precio) {
+  int cod = this->obtenerCodigo();
+  Viaje *nuevoViaje = new Viaje(cod, fecha, origen, destino, asientos, precio);
+  
+  // Se crea un link con v
+  nuevoViaje->setVehiculo(v);
+  
+  // 6.2: add(vi)
+  this->agregarViaje(nuevoViaje);
+  
+  return nuevoViaje;
 }

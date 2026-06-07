@@ -27,6 +27,7 @@ public:
   void agregarVehiculo(Vehiculo *v);
   std::vector<DTListarViaje> obtenerDTListarViajes() override;
   std::set<DTVehiculosConductor> listarVehiculos();
+  bool hayViajesFechaConductor(DTFecha fecha);
 
   std::set<TipoLibreta> getLibretas();
   void setLibretas(std::set<TipoLibreta> libretas);

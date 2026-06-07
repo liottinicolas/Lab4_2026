@@ -35,6 +35,8 @@ public:
   bool generarReserva(std::string nickname, int codigo, int asientos) override;
   std::set<DTVehiculosConductor>
   listarVehiculosConductor(std::string nickname) override;
+  bool altaViaje(std::string matricula, DTFecha fecha, std::string origen,
+                 std::string destino, int asientos, float precio) override;
 };
 
 #endif
