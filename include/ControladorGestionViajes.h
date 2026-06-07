@@ -2,10 +2,10 @@
 #define CONTROLADORGESTIONVIAJES_H
 
 #include "DTListarViaje.h"
+#include "DTVehiculosConductor.h"
 #include "IControladorGestionViajes.h"
 #include "ManejadorUsuario.h"
 #include "ManejadorViaje.h"
-#include <map>
 #include <string>
 #include <vector>
 
@@ -29,11 +29,12 @@ public:
                                                std::string origen,
                                                std::string destino,
                                                int asientos) override;
-  std::vector<DTUsuario> listarUsuariosViaje(int codigo,
-                                             std::string nickname) override;
+  std::vector<DTUsuario> listarUsuariosViaje(int codigo) override;
   bool calificarUsuario(std::string nicknameCalificado,
                         int calificacion) override;
   bool generarReserva(std::string nickname, int codigo, int asientos) override;
+  std::set<DTVehiculosConductor>
+  listarVehiculosConductor(std::string nickname) override;
 };
 
 #endif

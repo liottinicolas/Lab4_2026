@@ -1,4 +1,5 @@
 #include "../include/ControladorGestionViajes.h"
+#include "../include/Conductor.h"
 #include "../include/ControladorFechaActual.h"
 #include "../include/ManejadorUsuario.h"
 #include "../include/ManejadorViaje.h"
@@ -19,6 +20,15 @@ ControladorGestionViajes *ControladorGestionViajes::getInstancia() {
     instancia = new ControladorGestionViajes();
   }
   return instancia;
+}
+// CASO DE USO ALTA VIAJE
+std::set<DTVehiculosConductor>
+ControladorGestionViajes::listarVehiculosConductor(std::string nickname) {
+  // 1. ya se instanció con el controlador la instancia de manejador
+  // 2. Busca conductor
+  Conductor *c = dynamic_cast<Conductor *>(mu->find(nickname));
+  // 3 Retorna la lista de listaVehiculos del conductor
+  return c->listarVehiculos();
 }
 
 std::vector<DTListarViaje>
@@ -63,22 +73,19 @@ ControladorGestionViajes::consultarViajes(DTFecha fecha, std::string origen,
 
 std::vector<DTUsuario>
 ControladorGestionViajes::listarUsuariosViaje(int codigo) {
-  this->codigoActor = codigo;  // 0. Guarda en memoria el codigo de viaje
-  Viaje vi = mv->find(codigo); // 1. Busca el viaje en el manejador
-  return vi.listaUsuarios(
-      std::string this
-          ->nicknameActor); // 2. Devuelve el set de los usuarios del viaje
+  this->codigoActor = codigo;   // 0. Guarda en memoria el codigo de viaje
+  Viaje *vi = mv->find(codigo); // 1. Busca el viaje en el manejador
+  return vi->listaUsuarios(
+      this->nicknameActor); // 2. Devuelve el set de los usuarios del viaje
 }
 
 bool ControladorGestionViajes::calificarUsuario(std::string nicknameCalificado,
                                                 int calificacion) {
-  Viaje vi = mv->find(codigoActor);    // 1. Busca la instancia del viaje
-  Usuario u = mu->find(nicknameActor); // 2. Busca la instancia del calificador
-  Usuario uc =
+  Viaje *vi = mv->find(codigoActor);    // 1. Busca la instancia del viaje
+  Usuario *u = mu->find(nicknameActor); // 2. Busca la instancia del calificador
+  Usuario *uc =
       mu->find(nicknameCalificado); // 3. Busca la instancia del calificado
-  return vi.calificarUsViaje(
-      u, uc, calificacion); // 4. Califica el usuario con las instancias si se
-                            // dan las condiciones
+  return vi->calificarUsViaje(*u, *uc, calificacion); // 4. Califica el usuario
 }
 
 bool ControladorGestionViajes::generarReserva(std::string nickname, int codigo,

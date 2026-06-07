@@ -4,9 +4,11 @@
 #include "DTConsultaViaje.h"
 #include "DTFecha.h"
 #include "DTListarViaje.h"
+#include "DTUsuario.h"
+#include "DTVehiculosConductor.h"
+#include <set>
 #include <string>
 #include <vector>
-
 
 class IControladorGestionViajes {
 public:
@@ -19,8 +21,12 @@ public:
 
   virtual ~IControladorGestionViajes() {}
   virtual std::vector<DTUsuario> listarUsuariosViaje(int codigo) = 0;
-  virtual bool calificarUsuario(std::string nicknameCalificado, int calificacion) = 0;
-  virtual bool generarReserva(std::string nickname, int codigo, int asientos) = 0;
+  virtual bool calificarUsuario(std::string nicknameCalificado,
+                                int calificacion) = 0;
+  virtual bool generarReserva(std::string nickname, int codigo,
+                              int asientos) = 0;
+  virtual std::set<DTVehiculosConductor>
+  listarVehiculosConductor(std::string nickname) = 0;
 };
 
 #endif

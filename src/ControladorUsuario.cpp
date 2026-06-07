@@ -47,8 +47,8 @@ bool ControladorUsuario::altaConductor(
     return agregado;
 }
 
-std::vector<DTUsuario> ControladorUsuario::listarUsuarios() {
-  std::vector<DTUsuario> lista;
+std::set<DTUsuario> ControladorUsuario::listarUsuarios() {
+  std::set<DTUsuario> lista;
   ManejadorUsuario *mu = ManejadorUsuario::getInstancia();
 
   // 1: colU := obtenerUsuarios()
@@ -59,7 +59,7 @@ std::vector<DTUsuario> ControladorUsuario::listarUsuarios() {
     Usuario *u = par.second;
 
     // 2.1*: dtu := getDTUsuario()
-    lista.push_back(u->getDTUsuario());
+    lista.insert(u->getDTUsuario());
   }
 
   return lista;

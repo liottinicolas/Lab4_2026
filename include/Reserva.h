@@ -6,6 +6,7 @@
 
 class Viaje;
 class Usuario;
+class Pasajero;
 
 class Reserva {
 private:
