@@ -14,6 +14,8 @@ public:
 
   std::string getNickname() const;
   std::string getNombre() const;
+  // operador para ordenar en los sets.
+  bool operator<(const DTUsuario &other) const;
 };
 
 #endif

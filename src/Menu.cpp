@@ -7,8 +7,10 @@
 #include <limits>
 #include <string>
 
-
 void Menu::altaUsuario() {
+  Fabrica *fabrica = Fabrica::getInstance();
+  IControladorUsuario *controlador = fabrica->getIControladorUsuario();
+
   int tipoUsuario;
   std::cout << "1. Alta Pasajero\n";
   std::cout << "2. Alta Conductor\n";
@@ -37,8 +39,14 @@ void Menu::altaUsuario() {
     std::string ci;
     std::cout << "Ingrese CI: ";
     std::getline(std::cin, ci);
-    // TODO: usuarioOk = controlador->altaPasajero(nickname, nombre, contrasena,
-    // email, ci)
+    usuarioOk =
+        controlador->altaPasajero(nickname, nombre, contrasena, email, ci);
+    /*   PARA PROBAR SI REGISTRA OK*/
+    /* if (usuarioOk) {
+      std::cout << "Pasajero registrado exitosamente.\n";
+    } else {
+      std::cout << "Ya existe un usuario con ese nickname.\n";
+    }*/
   } else if (tipoUsuario == 2) {
     // TODO: usuarioOk = controlador->altaConductor(nickname, nombre,
     // contrasena, email, libretas)
@@ -253,7 +261,7 @@ void Menu::eliminarViaje() {
   // TODO: Mostrar detalle del viaje siguiendo el formato
   //>> Viaje <<
   //--- Matrícula: aa, Fecha: dd/mm/aaaa, Origen: zzz, Destino: www, Capacidad:
-  //bbb, Precio por asiento: qqq
+  // bbb, Precio por asiento: qqq
   //>> Vehiculo <<
   //--- Matricula: mm, Capacidad: aa, Marca: bbb, Modelo: ccc, Tipo: ddd
   //>> Reservas <<

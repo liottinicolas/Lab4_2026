@@ -16,6 +16,8 @@ public:
   std::string getMatricula() const;
   std::string getModelo() const;
   int getCapacidad() const;
+  // operador para ordenar en los sets.
+  bool operator<(const DTVehiculosConductor &other) const;
 };
 
 #endif
