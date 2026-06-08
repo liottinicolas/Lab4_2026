@@ -99,16 +99,16 @@ void Viaje::agregarReserva(Reserva *r) {
 
 std::vector<DTUsuario> Viaje::listaUsuarios(std::string nicknameActor) {
   std::vector<DTUsuario> us;
-  if (!this->Reservas->empty()) {
-    for (const Reserva &r : Reservas) {
-      if (nicknameActor != getNickname(r->)) {
-        DTUsuario u = r.getPasajero()->getDTUsuario;
+  if (!this->reservas.empty()) {
+    for (Reserva *r : this->reservas) {
+      if (nicknameActor != r->getPasajero()->getNickname()) {
+        DTUsuario u = r->getPasajero()->getDTUsuario();
         us.push_back(u);
       }
     }
   }
-  if (nicknameActor != this->vehiculo.getNicknameConductor()) {
-    DTUsuario c = this->vehiculo.ObtenerDTUsCond();
+  if (nicknameActor != this->vehiculo->getNicknameConductor()) {
+    DTUsuario c = this->vehiculo->ObtenerDTUsCond();
     us.push_back(c);
   }
   return us;
@@ -116,30 +116,21 @@ std::vector<DTUsuario> Viaje::listaUsuarios(std::string nicknameActor) {
 
 bool Viaje::calificarUsViaje(Usuario &calificador, Usuario &calificado,
                              int calificacion) {
-  bool a = this->vehiculo.EsDueño(nicknameActor);
+  bool a = this->vehiculo->EsDueño(calificador.getNickname());
   if (a) {
-    bool a1 = false;
-    auto it = Reservas.begin();
-    while (!a1) {
-      if ((it.getPasajero()).getNickname() == calificado.getNickname()) {
-        a1 = true;
-      } else {
-        it++;
+    for (Reserva *r : this->reservas) {
+      if (r->getPasajero()->getNickname() == calificado.getNickname()) {
+        return r->calificarUsRes(calificador, calificado, calificacion);
       }
     }
-    return it.calificarUsRes(calificador, calificado, calificacion);
   } else {
-    bool a2 = false;
-    auto it = reservas.begin();
-    while (!a2) {
-      if ((it.getPasajero()).getNickname() == calificador.getNickname()) {
-        a2 = true;
-      } else {
-        it++;
+    for (Reserva *r : this->reservas) {
+      if (r->getPasajero()->getNickname() == calificador.getNickname()) {
+        return r->calificarUsRes(calificador, calificado, calificacion);
       }
     }
-    return it.calificarUsRes(calificador, calificado, calificacion);
   }
+  return false;
 }
 
 DTConsultaViaje Viaje::datosViaje() {

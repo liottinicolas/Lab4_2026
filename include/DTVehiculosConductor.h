@@ -13,9 +13,9 @@ public:
   DTVehiculosConductor(std::string matricula, std::string modelo,
                        int capacidad);
 
-  std::string getMatricula();
-  std::string getModelo();
-  int getCapacidad();
+  std::string getMatricula() const;
+  std::string getModelo() const;
+  int getCapacidad() const;
 };
 
 #endif

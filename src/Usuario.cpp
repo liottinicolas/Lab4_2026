@@ -1,4 +1,6 @@
 #include "../include/Usuario.h"
+#include "../include/Reserva.h"
+#include "../include/Viaje.h"
 
 Usuario::Usuario(std::string nickname, std::string nombre,
                  std::string contrasena, std::string email) {
@@ -30,9 +32,9 @@ bool Usuario::ExisteCal(Usuario &u, Reserva &r) {
   if (!calificaciones.empty()) {
     auto it = calificaciones.begin();
     bool a = false;
-    while (!a && it.reservas.end()) {
-      if ((it.getCalificado->getNickname == u.getNickname) &&
-          (r.getViaje->getCodigo == it.getReserva->getViaje->getCodigo)) {
+    while (!a && it != calificaciones.end()) {
+      if ((it->getCalificado()->getNickname() == u.getNickname()) &&
+          (r.getViaje()->getCodigo() == it->getReserva()->getViaje()->getCodigo())) {
         a = true;
       } else {
         it++;
@@ -44,8 +46,20 @@ bool Usuario::ExisteCal(Usuario &u, Reserva &r) {
   }
 }
 
-void Usuario::calificarUs(Usuario &calificado, Reserva &r, int calificacion,
+bool Usuario::calificarUs(Usuario &calificado, Reserva &r, int calificacion,
                           DTFecha fechaSistema) {
-  cal = Calificacion(fechaSistema, calificacion, this, calificado, r);
+  Calificacion cal(fechaSistema, calificacion, calificado, *this, r);
   this->calificaciones.push_back(cal);
+  return true;
+}
+
+float Usuario::promedioCalificaciones() {
+  if (this->calificaciones.empty()) {
+    return 0.0f;
+  }
+  float sum = 0.0f;
+  for (Calificacion &c : this->calificaciones) {
+    sum += c.getPuntaje();
+  }
+  return sum / this->calificaciones.size();
 }

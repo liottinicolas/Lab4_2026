@@ -7,8 +7,12 @@ DTVehiculosConductor::DTVehiculosConductor(std::string matricula,
   this->capacidad = capacidad;
 }
 
-std::string DTVehiculosConductor::getMatricula() { return matricula; }
+std::string DTVehiculosConductor::getMatricula() const { return matricula; }
 
-std::string DTVehiculosConductor::getModelo() { return modelo; }
+std::string DTVehiculosConductor::getModelo() const { return modelo; }
 
-int DTVehiculosConductor::getCapacidad() { return capacidad; }
+int DTVehiculosConductor::getCapacidad() const { return capacidad; }
+
+bool DTVehiculosConductor::operator<(const DTVehiculosConductor& other) const {
+  return this->matricula < other.matricula;
+}

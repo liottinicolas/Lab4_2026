@@ -5,6 +5,7 @@
 #include "DTListarViaje.h"
 #include "DTUsuario.h"
 #include "Reserva.h"
+#include "DTConsultaViaje.h"
 #include <string>
 #include <vector>
 

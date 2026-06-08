@@ -1,12 +1,12 @@
 #include "../include/Calificacion.h"
 
-Calificacion::Calificacion(DTFecha fecha, int puntaje, Usuario &calificador,
-                           Usuario &calificado, Reserva &r) {
+Calificacion::Calificacion(DTFecha fecha, int puntaje, Usuario &calificado,
+                           Usuario &calificador, Reserva &r) {
   this->fecha = fecha;
   this->puntaje = puntaje;
-  this->calificador = calificador;
-  this->calificado = calificado;
-  this->reserva = r;
+  this->calificado = &calificado;
+  this->calificador = &calificador;
+  this->reserva = &r;
 }
 
 Calificacion::~Calificacion() {}
