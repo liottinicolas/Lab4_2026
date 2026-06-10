@@ -153,6 +153,22 @@ void CargaDatos::cargarDatos() {
     std::cout << "  - Obtenido: " << v3 << " (" << (v3 ? "true" : "false") << ")\n";
     std::cout << "  - Resultado: " << (v3 ? "[OK]" : "[FALLA]") << "\n\n";
 
+    // Prueba 12: Probar listarPasajeros()
+    std::set<std::string> pasajerosListados = cu->listarPasajeros();
+    std::cout << "Prueba 12: Listar pasajeros registrados\n";
+    std::cout << "  - Pasajeros obtenidos:\n";
+    for (const std::string &nick : pasajerosListados) {
+        std::cout << "      * " << nick << "\n";
+    }
+    bool p12_ok = (pasajerosListados.size() == 4 &&
+                   pasajerosListados.count("pasajero1") &&
+                   pasajerosListados.count("pasajero2") &&
+                   pasajerosListados.count("pasajeroNuevo1") &&
+                   pasajerosListados.count("pasajeroNuevo2"));
+    std::cout << "  - Esperado: 4 pasajeros (pasajero1, pasajero2, pasajeroNuevo1, pasajeroNuevo2)\n";
+    std::cout << "  - Obtenido: " << pasajerosListados.size() << " pasajeros\n";
+    std::cout << "  - Resultado: " << (p12_ok ? "[OK]" : "[FALLA]") << "\n\n";
+
     std::cout << "==============================================\n\n";
 
     // Mostrar todos los usuarios registrados al final

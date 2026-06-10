@@ -232,6 +232,13 @@ void Menu::altaViaje() {
 }
 
 void Menu::generarReserva() {
+  Fabrica *fabrica = Fabrica::getInstance();
+  IControladorUsuario *controladorUsuario = fabrica->getIControladorUsuario();
+
+  std::set<string> pasajeros = controladorUsuario->listarPasajeros();
+  for (string nickname : pasajeros) {
+    std::cout << "> " << nickname << "\n";
+  }
   // TODO: Colecion de String = controlador->listarPasajeros()
   // TODO: Recorrer la colección y mostrar "> xx"
   std::string nickname;

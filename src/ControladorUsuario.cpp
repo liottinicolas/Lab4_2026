@@ -102,10 +102,6 @@ int ControladorUsuario::registrarVehiculo(string nickname, string matricula,
   return 0;
 }
 
-void ControladorUsuario::listarVehiculosConductor() {
-  // Dummy implementation to satisfy compiler/linker
-}
-
 std::set<string> ControladorUsuario::listarPasajeros() {
   std::set<string> pasajeros;
   std::map<std::string, Usuario *> usuarios = mu->obtenerUsuarios();

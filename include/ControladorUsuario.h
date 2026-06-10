@@ -24,7 +24,6 @@ public:
                         string marca, string modelo, TipoVehiculo tipo);
 
   set<DTUsuario> listarUsuarios();
-  void listarVehiculosConductor();
   set<string> listarPasajeros();
 };
 

@@ -24,8 +24,6 @@ public:
 
   virtual set<DTUsuario> listarUsuarios() = 0;
 
-  virtual void listarVehiculosConductor() = 0;
-
   virtual set<string> listarPasajeros() = 0;
 
   virtual ~IControladorUsuario() {}
