@@ -46,7 +46,7 @@ void Conductor::setLibretas(std::set<TipoLibreta> libretas) {
 std::set<DTVehiculosConductor> Conductor::listarVehiculos() {
   std::set<DTVehiculosConductor> dtvc;
   for (Vehiculo *v : this->vehiculos) {
-    dtvc.insert(DTVehiculosConductor(v->getMatricula(), v->getModelo(),
+    dtvc.insert(DTVehiculosConductor(v->getMatricula(), v->getMarca(),
                                      v->getCapacidad()));
   }
   return dtvc;
@@ -57,4 +57,3 @@ std::vector<Vehiculo *> Conductor::getVehiculos() { return this->vehiculos; }
 void Conductor::setVehiculos(std::vector<Vehiculo *> vehiculos) {
   this->vehiculos = vehiculos;
 }
-

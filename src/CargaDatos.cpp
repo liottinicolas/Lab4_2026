@@ -128,6 +128,33 @@ void CargaDatos::cargarDatos() {
 
     std::cout << "==============================================\n\n";
 
+    // --- PRUEBAS DE ROBUSTEZ PARA altaViaje ---
+    std::cout << "=== PRUEBAS DE ROBUSTEZ: altaViaje ===\n";
+
+    // Prueba 9: Asientos > Capacidad (debe dar false)
+    bool v1 = cg->altaViaje("AAA1234", DTFecha(25, 6, 2026), "Montevideo", "Punta del Este", 5, 300.0);
+    std::cout << "Prueba 9: Intentar registrar viaje con mas asientos (5) que la capacidad del vehiculo ('AAA1234', cap: 4)\n";
+    std::cout << "  - Esperado: 0 (false)\n";
+    std::cout << "  - Obtenido: " << v1 << " (" << (v1 ? "true" : "false") << ")\n";
+    std::cout << "  - Resultado: " << (!v1 ? "[OK]" : "[FALLA]") << "\n\n";
+
+    // Prueba 10: Conductor con viaje en la misma fecha (debe dar false)
+    // El conductor de BBB5678 es chofer1, que ya tiene un viaje el 15/6/2026 con el vehiculo AAA1234
+    bool v2 = cg->altaViaje("BBB5678", DTFecha(15, 6, 2026), "Montevideo", "Punta del Este", 1, 150.0);
+    std::cout << "Prueba 10: Intentar registrar viaje en fecha ocupada (15/6/2026) para el mismo conductor ('chofer1') con otro vehiculo\n";
+    std::cout << "  - Esperado: 0 (false)\n";
+    std::cout << "  - Obtenido: " << v2 << " (" << (v2 ? "true" : "false") << ")\n";
+    std::cout << "  - Resultado: " << (!v2 ? "[OK]" : "[FALLA]") << "\n\n";
+
+    // Prueba 11: Registro exitoso (debe dar true)
+    bool v3 = cg->altaViaje("BBB5678", DTFecha(18, 6, 2026), "Montevideo", "Maldonado", 1, 200.0);
+    std::cout << "Prueba 11: Registrar viaje exitoso para 'chofer1' usando 'BBB5678' el 18/6/2026\n";
+    std::cout << "  - Esperado: 1 (true)\n";
+    std::cout << "  - Obtenido: " << v3 << " (" << (v3 ? "true" : "false") << ")\n";
+    std::cout << "  - Resultado: " << (v3 ? "[OK]" : "[FALLA]") << "\n\n";
+
+    std::cout << "==============================================\n\n";
+
     // Mostrar todos los usuarios registrados al final
     std::cout << "=== USUARIOS REGISTRADOS EN EL MANEJADOR ===\n";
     std::set<DTUsuario> todosUsuarios = cu->listarUsuarios();
