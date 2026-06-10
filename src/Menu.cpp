@@ -30,6 +30,11 @@ void Menu::altaUsuario() {
   std::getline(std::cin, nombre);
   std::cout << "Ingrese contrasena: ";
   std::getline(std::cin, contrasena);
+  // TODO Filtrado la contraseña
+  if (contrasena.length() < 8) {
+    std::cout << "La contrasena debe tener al menos 8 caracteres.\n";
+    return;
+  }
   std::cout << "Ingrese email: ";
   std::getline(std::cin, email);
 
@@ -41,15 +46,97 @@ void Menu::altaUsuario() {
     std::getline(std::cin, ci);
     usuarioOk =
         controlador->altaPasajero(nickname, nombre, contrasena, email, ci);
-    /*   PARA PROBAR SI REGISTRA OK*/
-    /* if (usuarioOk) {
-      std::cout << "Pasajero registrado exitosamente.\n";
-    } else {
-      std::cout << "Ya existe un usuario con ese nickname.\n";
-    }*/
   } else if (tipoUsuario == 2) {
-    // TODO: usuarioOk = controlador->altaConductor(nickname, nombre,
-    // contrasena, email, libretas)
+
+    bool tieneMotoProfesional = false;
+    bool tieneMotoAmateur = false;
+    bool tieneAutoProfesional = false;
+    bool tieneAutoAmateur = false;
+
+    int cantLibretas = 0;
+    int agregarLibreta = 1;
+
+    while (agregarLibreta == 1 && cantLibretas < 4) {
+      int tipoLibreta;
+      std::cout << "\n=== Registrar Libreta ===\n";
+      std::cout << "0. Moto (Profesional)\n";
+      std::cout << "1. Moto (Amateur)\n";
+      std::cout << "2. Auto (Profesional)\n";
+      std::cout << "3. Auto (Amateur)\n";
+      std::cout << "Seleccione el tipo de libreta: ";
+      std::cin >> tipoLibreta;
+      // estaba este
+      // std::cin.ignore(std::numeric_limits::max(), '\n');
+      /// pusimos este
+      std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+      bool yaExiste = false;
+      if (tipoLibreta == 0) {
+        if (tieneMotoProfesional) {
+          yaExiste = true;
+        } else {
+          tieneMotoProfesional = true;
+          cantLibretas++;
+        }
+      } else if (tipoLibreta == 1) {
+        if (tieneMotoAmateur) {
+          yaExiste = true;
+        } else {
+          tieneMotoAmateur = true;
+          cantLibretas++;
+        }
+      } else if (tipoLibreta == 2) {
+        if (tieneAutoProfesional) {
+          yaExiste = true;
+        } else {
+          tieneAutoProfesional = true;
+          cantLibretas++;
+        }
+      } else if (tipoLibreta == 3) {
+        if (tieneAutoAmateur) {
+          yaExiste = true;
+        } else {
+          tieneAutoAmateur = true;
+          cantLibretas++;
+        }
+      } else {
+        std::cout << "Opcion invalida.\n";
+        continue;
+      }
+
+      if (yaExiste) {
+        std::cout << "Esa libreta ya fue ingresada.\n";
+      } else {
+        std::cout << "Libreta agregada.\n";
+      }
+
+      if (cantLibretas < 4) {
+        std::cout << "¿Desea agregar otra libreta? (1: Si, 0: No): ";
+        std::cin >> agregarLibreta;
+        // aca tmb modificamos esto
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+      } else {
+        std::cout << "Se ha alcanzado el limite maximo de libretas.\n";
+      }
+    }
+
+    std::set<TipoLibreta> libretas;
+    if (tieneMotoProfesional) {
+      libretas.insert(TipoLibreta::MotoProfesional);
+    }
+    if (tieneMotoAmateur) {
+      libretas.insert(TipoLibreta::MotoAmateur);
+    }
+    if (tieneAutoProfesional) {
+      libretas.insert(TipoLibreta::AutoProfesional);
+    }
+    if (tieneAutoAmateur) {
+      libretas.insert(TipoLibreta::AutoAmateur);
+    }
+
+    usuarioOk = controlador->altaConductor(nickname, nombre, contrasena, email,
+                                           libretas);
     int agregarVehiculo = 1;
     while (usuarioOk == true && agregarVehiculo == 1) {
       std::string matricula, marca, modelo;
@@ -60,6 +147,11 @@ void Menu::altaUsuario() {
       std::cout << "Ingrese capacidad: ";
       std::cin >> capacidad;
       std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+      // TODO aca se filtra que la capacidad sea 1 o más.
+      if (capacidad < 1) {
+        std::cout << "La capacidad debe ser mayor a 0.\n";
+        return;
+      }
       std::cout << "Ingrese marca: ";
       std::getline(std::cin, marca);
       std::cout << "Ingrese modelo: ";
@@ -67,10 +159,10 @@ void Menu::altaUsuario() {
       std::cout << "Ingrese tipo (0: Auto, 1: Moto): ";
       std::cin >> tipo;
       std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
       int resultadoRegistrarVehiculo = -3;
-      // TODO: resultadoRegistrarVehiculo =
-      // controlador->registrarVehiculo(nickname, matricula, capacidad, marca,
-      // modelo, tipo)
+      resultadoRegistrarVehiculo = controlador->registrarVehiculo(
+          nickname, matricula, capacidad, marca, modelo, TipoVehiculo(tipo));
       if (resultadoRegistrarVehiculo == -1) {
         std::cout << "Ya existe un vehiculo con esa matricula.\n";
       } else if (resultadoRegistrarVehiculo == -2) {

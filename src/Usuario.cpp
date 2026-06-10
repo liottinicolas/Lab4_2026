@@ -34,7 +34,8 @@ bool Usuario::ExisteCal(Usuario &u, Reserva &r) {
     bool a = false;
     while (!a && it != calificaciones.end()) {
       if ((it->getCalificado()->getNickname() == u.getNickname()) &&
-          (r.getViaje()->getCodigo() == it->getReserva()->getViaje()->getCodigo())) {
+          (r.getViaje()->getCodigo() ==
+           it->getReserva()->getViaje()->getCodigo())) {
         a = true;
       } else {
         it++;

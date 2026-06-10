@@ -17,12 +17,11 @@ ControladorUsuario *ControladorUsuario::getInstancia() {
   return instancia;
 }
 
+// ALTA USUARIOS
+
 bool ControladorUsuario::altaPasajero(string nickname, string nombre,
                                       string contrasena, string email,
                                       string ci) {
-  if (contrasena.length() < 8) {
-    return false;
-  }
   bool agregado = !mu->existe(nickname);
   if (agregado) {
     Usuario *pasajero_nuevo =
@@ -36,9 +35,6 @@ bool ControladorUsuario::altaPasajero(string nickname, string nombre,
 bool ControladorUsuario::altaConductor(string nickname, string nombre,
                                        string contrasena, string email,
                                        set<TipoLibreta> libretas) {
-  if (contrasena.length() < 8) {
-    return false;
-  }
   bool agregado = !mu->existe(nickname);
   if (agregado) {
     Usuario *usuario_nuevo =
