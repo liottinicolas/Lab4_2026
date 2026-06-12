@@ -4,17 +4,8 @@
 #include "../include/Pasajero.h"
 #include "../include/Vehiculo.h"
 
-ControladorUsuario *ControladorUsuario::instancia = nullptr;
-
 ControladorUsuario::ControladorUsuario() {
   mu = ManejadorUsuario::getInstancia();
-}
-
-ControladorUsuario *ControladorUsuario::getInstancia() {
-  if (instancia == nullptr) {
-    instancia = new ControladorUsuario();
-  }
-  return instancia;
 }
 
 // ALTA USUARIOS

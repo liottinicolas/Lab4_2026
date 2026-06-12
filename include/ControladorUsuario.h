@@ -6,13 +6,10 @@
 
 class ControladorUsuario : public IControladorUsuario {
 private:
-  static ControladorUsuario *instancia;
-  ControladorUsuario();
-
   ManejadorUsuario *mu;
 
 public:
-  static ControladorUsuario *getInstancia();
+  ControladorUsuario();
 
   bool altaPasajero(string nickname, string nombre, string contrasena,
                     string email, string ci);

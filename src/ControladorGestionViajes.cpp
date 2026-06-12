@@ -11,20 +11,11 @@
 #include "../include/Viaje.h"
 #include <algorithm>
 
-ControladorGestionViajes *ControladorGestionViajes::instancia = nullptr;
-
 ControladorGestionViajes::ControladorGestionViajes() {
   mu = ManejadorUsuario::getInstancia();
   mv = ManejadorViaje::getInstance();
   codigoActor = -1;
   nicknameActor = "";
-}
-
-ControladorGestionViajes *ControladorGestionViajes::getInstancia() {
-  if (instancia == nullptr) {
-    instancia = new ControladorGestionViajes();
-  }
-  return instancia;
 }
 // CASO DE USO ALTA VIAJE
 std::set<DTVehiculosConductor>
@@ -103,7 +94,8 @@ bool ControladorGestionViajes::calificarUsuario(std::string nicknameCalificado,
     this->codigoActor = -1;
     return false;
   }
-  bool ok = vi->calificarUsViaje(*u, *uc, calificacion); // 4. Califica el usuario
+  bool ok =
+      vi->calificarUsViaje(*u, *uc, calificacion); // 4. Califica el usuario
   this->nicknameActor = "";
   this->codigoActor = -1;
   return ok;
@@ -190,14 +182,13 @@ void ControladorGestionViajes::eliminarViaje() {
     ve->removerViaje(vi);
   }
 
-  // 2. Remover cada reserva de su pasajero y borrar la reserva
+  // 2. Remover cada reserva de su pasajero
   std::vector<Reserva *> res = vi->getReservas();
   for (Reserva *r : res) {
     Pasajero *p = r->getPasajero();
     if (p != nullptr) {
       p->removerReserva(r);
     }
-    delete r;
   }
 
   // 3. Remover el viaje del manejador y borrarlo

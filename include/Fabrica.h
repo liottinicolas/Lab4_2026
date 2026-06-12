@@ -8,6 +8,8 @@
 class Fabrica {
 private:
   static Fabrica *instancia;
+  IControladorUsuario *controladorUsuario;
+  IControladorGestionViajes *controladorGestionViajes;
 
   Fabrica();
 

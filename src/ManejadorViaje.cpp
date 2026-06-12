@@ -72,3 +72,11 @@ void ManejadorViaje::removerViaje(int codigo) {
     this->viajes.erase(it);
   }
 }
+
+ManejadorViaje::~ManejadorViaje() {
+  for (auto const &par : viajes) {
+    delete par.second;
+  }
+  viajes.clear();
+  instancia = nullptr;
+}

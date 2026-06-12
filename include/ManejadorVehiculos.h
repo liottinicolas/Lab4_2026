@@ -17,6 +17,7 @@ public:
   bool existe(std::string matricula);
   void agregarVehiculo(Vehiculo *v);
   std::map<std::string, Vehiculo *> obtenerVehiculos();
+  ~ManejadorVehiculos();
 };
 
 #endif

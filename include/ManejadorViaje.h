@@ -35,6 +35,7 @@ public:
                     std::string destino, int asientos, float precio);
   void removerViaje(int codigo);
   int obtenerCodigo();
+  ~ManejadorViaje();
 };
 
 #endif

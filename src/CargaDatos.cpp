@@ -139,3 +139,7 @@ void CargaDatos::cargarDatos() {
     datosCargados = true;
     std::cout << "Datos cargados exitosamente.\n";
 }
+
+CargaDatos::~CargaDatos() {
+    instancia = nullptr;
+}

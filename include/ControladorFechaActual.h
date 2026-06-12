@@ -15,6 +15,7 @@ public:
 
     DTFecha getFecha();
     void setFecha(DTFecha nuevaFecha);
+    ~ControladorFechaActual();
 };
 
 #endif

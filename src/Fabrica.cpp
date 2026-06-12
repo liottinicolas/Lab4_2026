@@ -2,10 +2,17 @@
 #include "../include/ControladorFechaActual.h"
 #include "../include/ControladorGestionViajes.h"
 #include "../include/ControladorUsuario.h"
+#include "../include/ManejadorUsuario.h"
+#include "../include/ManejadorVehiculos.h"
+#include "../include/ManejadorViaje.h"
+#include "../include/CargaDatos.h"
 
 Fabrica *Fabrica::instancia = nullptr;
 
-Fabrica::Fabrica() {}
+Fabrica::Fabrica() {
+  controladorUsuario = nullptr;
+  controladorGestionViajes = nullptr;
+}
 
 Fabrica *Fabrica::getInstance() {
   if (instancia == nullptr) {
@@ -19,16 +26,26 @@ IControladorFechaActual *Fabrica::getIControladorFechaActual() {
 }
 
 IControladorGestionViajes *Fabrica::getIControladorGestionViajes() {
-  return ControladorGestionViajes::getInstancia();
+  if (controladorGestionViajes == nullptr) {
+    controladorGestionViajes = new ControladorGestionViajes();
+  }
+  return controladorGestionViajes;
 }
 
 IControladorUsuario *Fabrica::getIControladorUsuario() {
-  return ControladorUsuario::getInstancia();
+  if (controladorUsuario == nullptr) {
+    controladorUsuario = new ControladorUsuario();
+  }
+  return controladorUsuario;
 }
 
 Fabrica::~Fabrica() {
-  delete ControladorGestionViajes::getInstancia();
-  delete ControladorUsuario::getInstancia();
+  delete controladorGestionViajes;
+  delete controladorUsuario;
   delete ControladorFechaActual::getInstance();
+  delete ManejadorUsuario::getInstancia();
+  delete ManejadorVehiculos::getInstancia();
+  delete ManejadorViaje::getInstance();
+  delete CargaDatos::getInstance();
   instancia = nullptr;
 }

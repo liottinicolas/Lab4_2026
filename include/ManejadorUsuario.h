@@ -24,6 +24,7 @@ public:
   bool existeVehiculo(string matricula);
   map<string, Usuario *> obtenerUsuarios();
   static ManejadorUsuario *getInstancia();
+  ~ManejadorUsuario();
 };
 
 #endif

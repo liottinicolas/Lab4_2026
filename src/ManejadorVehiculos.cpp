@@ -32,3 +32,11 @@ void ManejadorVehiculos::agregarVehiculo(Vehiculo *v) {
 std::map<std::string, Vehiculo *> ManejadorVehiculos::obtenerVehiculos() {
   return vehiculos;
 }
+
+ManejadorVehiculos::~ManejadorVehiculos() {
+  for (auto const &par : vehiculos) {
+    delete par.second;
+  }
+  vehiculos.clear();
+  instancia = nullptr;
+}

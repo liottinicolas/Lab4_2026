@@ -11,6 +11,7 @@ private:
 public:
     static CargaDatos* getInstance();
     void cargarDatos();
+    ~CargaDatos();
 };
 
 #endif

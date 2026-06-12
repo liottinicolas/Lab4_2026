@@ -11,16 +11,13 @@
 
 class ControladorGestionViajes : public IControladorGestionViajes {
 private:
-  static ControladorGestionViajes *instancia;
-  ControladorGestionViajes();
-
   ManejadorUsuario *mu;
   ManejadorViaje *mv;
   std::string nicknameActor;
   int codigoActor;
 
 public:
-  static ControladorGestionViajes *getInstancia();
+  ControladorGestionViajes();
 
   std::vector<DTListarViaje> listarViajes(std::string nickname) override;
   std::vector<DTListarViaje> listarViajes() override;

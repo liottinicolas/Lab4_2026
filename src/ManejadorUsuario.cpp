@@ -44,3 +44,11 @@ std::map<std::string, Usuario*>
 ManejadorUsuario::obtenerUsuarios() {
     return usuarios;
 }
+
+ManejadorUsuario::~ManejadorUsuario() {
+  for (auto const &par : usuarios) {
+    delete par.second;
+  }
+  usuarios.clear();
+  instancia = nullptr;
+}
