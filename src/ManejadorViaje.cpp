@@ -3,9 +3,7 @@
 
 ManejadorViaje *ManejadorViaje::instancia = nullptr;
 
-ManejadorViaje::ManejadorViaje() {
-  this->ultimoViaje = 0;
-}
+ManejadorViaje::ManejadorViaje() { this->ultimoViaje = 0; }
 
 ManejadorViaje *ManejadorViaje::getInstance() {
   if (instancia == nullptr) {
@@ -22,7 +20,7 @@ void ManejadorViaje::agregarViaje(Viaje *v) {
   }
 }
 
-Viaje* ManejadorViaje::find(int codigo) {
+Viaje *ManejadorViaje::find(int codigo) {
   auto it = this->viajes.find(codigo);
   if (it != this->viajes.end()) {
     return it->second;
@@ -53,15 +51,24 @@ int ManejadorViaje::obtenerCodigo() {
   return this->ultimoViaje;
 }
 
-Viaje* ManejadorViaje::crearViaje(Vehiculo* v, DTFecha fecha, std::string origen, std::string destino, int asientos, float precio) {
+Viaje *ManejadorViaje::crearViaje(Vehiculo *v, DTFecha fecha,
+                                  std::string origen, std::string destino,
+                                  int asientos, float precio) {
   int cod = this->obtenerCodigo();
   Viaje *nuevoViaje = new Viaje(cod, fecha, origen, destino, asientos, precio);
-  
+
   // Se crea un link con v
   nuevoViaje->setVehiculo(v);
-  
+
   // 6.2: add(vi)
   this->agregarViaje(nuevoViaje);
-  
+
   return nuevoViaje;
+}
+
+void ManejadorViaje::removerViaje(int codigo) {
+  auto it = this->viajes.find(codigo);
+  if (it != this->viajes.end()) {
+    this->viajes.erase(it);
+  }
 }

@@ -1,6 +1,7 @@
 #include "../include/Reserva.h"
 #include "../include/Viaje.h"
 #include "../include/Usuario.h"
+#include "../include/Pasajero.h"
 #include "../include/ControladorFechaActual.h"
 
 Reserva::Reserva(int asientosReservados, DTFecha fecha) {
@@ -56,4 +57,8 @@ bool Reserva::calificarUsRes(Usuario& calificador, Usuario& calificado, int cali
         calificador.calificarUs(calificado, *this, calificacion, fechaSistema);
     }
     return !a;
+}
+
+DTDetalleReserva Reserva::getDTDetalleReserva() {
+    return DTDetalleReserva(this->asientosReservados, this->fecha, this->pasajero->getNickname());
 }

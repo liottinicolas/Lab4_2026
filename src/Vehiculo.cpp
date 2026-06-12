@@ -64,10 +64,25 @@ bool Vehiculo::EsDueño(std::string nickname) {
   return nickname == getNicknameConductor();
 }
 
-DTUsuario Vehiculo::ObtenerDTUsCond() { return this->conductor->getDTUsuario(); }
+DTUsuario Vehiculo::ObtenerDTUsCond() {
+  return this->conductor->getDTUsuario();
+}
 
 DTConsultaViaje Vehiculo::datosVehiculoYChofer(int codigo, float precio) {
   return DTConsultaViaje(codigo, this->marca, this->modelo,
-                         this->conductor->getNickname(),
+                         this->conductor->getNombre(),
                          this->conductor->promedioCalificaciones(), precio);
+}
+
+void Vehiculo::removerViaje(Viaje *vi) {
+  for (auto it = this->viajes.begin(); it != this->viajes.end(); ++it) {
+    if (*it == vi) {
+      this->viajes.erase(it);
+      break;
+    }
+  }
+}
+
+DTDetalleVehiculo Vehiculo::getDTDetalleVehiculo() {
+  return DTDetalleVehiculo(this->matricula, this->capacidad, this->marca, this->modelo, this->tipo);
 }

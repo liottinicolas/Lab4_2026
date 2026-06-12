@@ -21,6 +21,7 @@ public:
 
     // listar Viajes
     void agregarReserva(Reserva* r);
+    void removerReserva(Reserva* r);
     std::vector<DTListarViaje> obtenerDTListarViajes() override;
 
     std::string getCi();

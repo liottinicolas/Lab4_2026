@@ -5,6 +5,7 @@
 #include "DTListarViaje.h"
 #include "DTUsuario.h"
 #include "TipoVehiculo.h"
+#include "DTDetalleVehiculo.h"
 #include <string>
 #include <vector>
 
@@ -46,8 +47,10 @@ public:
   DTConsultaViaje datosVehiculoYChofer(int codigo, float precio);
   std::vector<Viaje *> getViajes();
   void agregarViaje(Viaje *vi);
+  void removerViaje(Viaje *vi);
   bool hayViajesConductor(DTFecha fecha);
   bool hayViajesFecha(DTFecha fecha);
+  DTDetalleVehiculo getDTDetalleVehiculo();
 };
 
 #endif

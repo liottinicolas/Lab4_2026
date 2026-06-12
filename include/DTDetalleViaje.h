@@ -6,6 +6,7 @@
 #include "DTDetalleReserva.h"
 #include <string>
 #include <vector>
+#include <iostream>
 
 class DTDetalleViaje {
 private:
@@ -30,5 +31,7 @@ public:
     DTDetalleVehiculo getVehiculo();
     std::vector<DTDetalleReserva> getReservas();
 };
+
+std::ostream &operator<<(std::ostream &os, DTDetalleViaje dt);
 
 #endif

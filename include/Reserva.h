@@ -3,6 +3,7 @@
 
 #include "DTFecha.h"
 #include "DTListarViaje.h"
+#include "DTDetalleReserva.h"
 
 class Viaje;
 class Usuario;
@@ -36,6 +37,7 @@ public:
     Pasajero* getPasajero();
     void setPasajero(Pasajero* p);
     bool calificarUsRes(Usuario& calificador, Usuario& calificado, int calificacion);
+    DTDetalleReserva getDTDetalleReserva();
 };
 
 #endif

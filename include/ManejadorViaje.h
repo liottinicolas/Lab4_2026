@@ -9,7 +9,6 @@
 
 class Vehiculo;
 
-
 class ManejadorViaje {
 private:
   static ManejadorViaje *instancia;
@@ -32,7 +31,9 @@ public:
                                                std::string origen,
                                                std::string destino,
                                                int asientos);
-  Viaje* crearViaje(Vehiculo* v, DTFecha fecha, std::string origen, std::string destino, int asientos, float precio);
+  Viaje *crearViaje(Vehiculo *v, DTFecha fecha, std::string origen,
+                    std::string destino, int asientos, float precio);
+  void removerViaje(int codigo);
   int obtenerCodigo();
 };
 

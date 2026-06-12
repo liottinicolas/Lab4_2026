@@ -13,3 +13,13 @@ DTFecha DTListarViaje::getFecha() { return fecha; }
 std::string DTListarViaje::getOrigen() { return origen; }
 std::string DTListarViaje::getDestino() { return destino; }
 std::string DTListarViaje::getConductor() { return conductor; }
+
+std::ostream& operator<<(std::ostream& os, DTListarViaje lv) {
+  os << "> Codigo: " << lv.getCodigo()
+     << ", Fecha: " << lv.getFecha()
+     << ", Origen: " << lv.getOrigen()
+     << ", Destino: " << lv.getDestino()
+     << ", Conductor: " << lv.getConductor();
+  return os;
+}
+

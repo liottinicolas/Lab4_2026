@@ -1,13 +1,15 @@
 #ifndef VIAJE_H
 #define VIAJE_H
 
+#include "DTConsultaViaje.h"
 #include "DTFecha.h"
 #include "DTListarViaje.h"
 #include "DTUsuario.h"
 #include "Reserva.h"
-#include "DTConsultaViaje.h"
+#include "DTDetalleViaje.h"
 #include <string>
 #include <vector>
+
 
 class Vehiculo;
 
@@ -37,6 +39,7 @@ public:
   int getAsientosPublicados();
   float getPrecio();
   Vehiculo *getVehiculo();
+  std::vector<Reserva *> getReservas();
 
   void setCodigo(int codigo);
   void setFecha(DTFecha fecha);
@@ -57,6 +60,7 @@ public:
   void agregarReserva(Reserva *r);
 
   DTConsultaViaje datosViaje();
+  DTDetalleViaje getDTDetalleViaje();
 };
 
 #endif

@@ -29,6 +29,8 @@ float Viaje::getPrecio() { return this->precio; }
 
 Vehiculo *Viaje::getVehiculo() { return this->vehiculo; }
 
+std::vector<Reserva *> Viaje::getReservas() { return this->reservas; }
+
 // Setters
 void Viaje::setCodigo(int codigo) { this->codigo = codigo; }
 
@@ -99,6 +101,10 @@ void Viaje::agregarReserva(Reserva *r) {
 
 std::vector<DTUsuario> Viaje::listaUsuarios(std::string nicknameActor) {
   std::vector<DTUsuario> us;
+  if (nicknameActor != this->vehiculo->getNicknameConductor()) {
+    DTUsuario c = this->vehiculo->ObtenerDTUsCond();
+    us.push_back(c);
+  }
   if (!this->reservas.empty()) {
     for (Reserva *r : this->reservas) {
       if (nicknameActor != r->getPasajero()->getNickname()) {
@@ -106,10 +112,6 @@ std::vector<DTUsuario> Viaje::listaUsuarios(std::string nicknameActor) {
         us.push_back(u);
       }
     }
-  }
-  if (nicknameActor != this->vehiculo->getNicknameConductor()) {
-    DTUsuario c = this->vehiculo->ObtenerDTUsCond();
-    us.push_back(c);
   }
   return us;
 }
@@ -135,4 +137,18 @@ bool Viaje::calificarUsViaje(Usuario &calificador, Usuario &calificado,
 
 DTConsultaViaje Viaje::datosViaje() {
   return this->vehiculo->datosVehiculoYChofer(this->codigo, this->precio);
+}
+
+DTDetalleViaje Viaje::getDTDetalleViaje() {
+  Vehiculo *veh = getVehiculo();
+
+  DTDetalleVehiculo dtv = veh->getDTDetalleVehiculo();
+
+  std::vector<DTDetalleReserva> dtrList;
+  for (Reserva *r : this->reservas) {
+    dtrList.push_back(r->getDTDetalleReserva());
+  }
+
+  return DTDetalleViaje(this->codigo, this->fecha, this->origen, this->destino,
+                        this->asientosPublicados, this->precio, dtv, dtrList);
 }

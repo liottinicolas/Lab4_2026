@@ -39,3 +39,12 @@ std::vector<Reserva*> Pasajero::getReservas() {
 void Pasajero::setReservas(std::vector<Reserva*> reservas) {
     this->reservas = reservas;
 }
+
+void Pasajero::removerReserva(Reserva* r) {
+    for (auto it = this->reservas.begin(); it != this->reservas.end(); ++it) {
+        if (*it == r) {
+            this->reservas.erase(it);
+            break;
+        }
+    }
+}

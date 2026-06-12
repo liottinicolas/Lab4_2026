@@ -9,12 +9,15 @@
 #include "../include/Usuario.h"
 #include "../include/Vehiculo.h"
 #include "../include/Viaje.h"
+#include <algorithm>
 
 ControladorGestionViajes *ControladorGestionViajes::instancia = nullptr;
 
 ControladorGestionViajes::ControladorGestionViajes() {
   mu = ManejadorUsuario::getInstancia();
   mv = ManejadorViaje::getInstance();
+  codigoActor = -1;
+  nicknameActor = "";
 }
 
 ControladorGestionViajes *ControladorGestionViajes::getInstancia() {
@@ -43,7 +46,11 @@ ControladorGestionViajes::listarViajes(std::string nickname) {
 
   if (u != nullptr) {
     // 2: dtViajes := obtenerDTListarViajes()
-    return u->obtenerDTListarViajes();
+    std::vector<DTListarViaje> res = u->obtenerDTListarViajes();
+    std::sort(res.begin(), res.end(), [](DTListarViaje &a, DTListarViaje &b) {
+      return a.getCodigo() < b.getCodigo();
+    });
+    return res;
   }
   return std::vector<DTListarViaje>();
 }
@@ -75,19 +82,31 @@ ControladorGestionViajes::consultarViajes(DTFecha fecha, std::string origen,
 
 std::vector<DTUsuario>
 ControladorGestionViajes::listarUsuariosViaje(int codigo) {
-  this->codigoActor = codigo;   // 0. Guarda en memoria el codigo de viaje
+  this->codigoActor = codigo;
   Viaje *vi = mv->find(codigo); // 1. Busca el viaje en el manejador
+
   return vi->listaUsuarios(
       this->nicknameActor); // 2. Devuelve el set de los usuarios del viaje
 }
 
 bool ControladorGestionViajes::calificarUsuario(std::string nicknameCalificado,
                                                 int calificacion) {
+  if (codigoActor == -1 || nicknameActor == "") {
+    return false;
+  }
   Viaje *vi = mv->find(codigoActor);    // 1. Busca la instancia del viaje
   Usuario *u = mu->find(nicknameActor); // 2. Busca la instancia del calificador
   Usuario *uc =
       mu->find(nicknameCalificado); // 3. Busca la instancia del calificado
-  return vi->calificarUsViaje(*u, *uc, calificacion); // 4. Califica el usuario
+  if (vi == nullptr || u == nullptr || uc == nullptr) {
+    this->nicknameActor = "";
+    this->codigoActor = -1;
+    return false;
+  }
+  bool ok = vi->calificarUsViaje(*u, *uc, calificacion); // 4. Califica el usuario
+  this->nicknameActor = "";
+  this->codigoActor = -1;
+  return ok;
 }
 
 bool ControladorGestionViajes::generarReserva(std::string nickname, int codigo,
@@ -151,4 +170,44 @@ bool ControladorGestionViajes::altaViaje(std::string matricula, DTFecha fecha,
   Viaje *cvi = mv->crearViaje(v, fecha, origen, destino, asientos, precio);
   v->agregarViaje(cvi);
   return true;
+}
+
+DTDetalleViaje ControladorGestionViajes::detalleViaje(int codigo) {
+  this->codigoActor = codigo;
+  Viaje *vi = mv->find(codigo);
+  return vi->getDTDetalleViaje();
+}
+
+void ControladorGestionViajes::eliminarViaje() {
+  Viaje *vi = mv->find(this->codigoActor);
+  if (vi == nullptr) {
+    return;
+  }
+
+  // 1. Remover el viaje de su vehiculo
+  Vehiculo *ve = vi->getVehiculo();
+  if (ve != nullptr) {
+    ve->removerViaje(vi);
+  }
+
+  // 2. Remover cada reserva de su pasajero y borrar la reserva
+  std::vector<Reserva *> res = vi->getReservas();
+  for (Reserva *r : res) {
+    Pasajero *p = r->getPasajero();
+    if (p != nullptr) {
+      p->removerReserva(r);
+    }
+    delete r;
+  }
+
+  // 3. Remover el viaje del manejador y borrarlo
+  mv->removerViaje(this->codigoActor);
+  delete vi;
+
+  // 4. Limpiar el codigo recordado
+  this->codigoActor = -1;
+}
+
+void ControladorGestionViajes::cancelarEliminarViaje() {
+  this->codigoActor = -1;
 }

@@ -51,16 +51,21 @@ bool Usuario::calificarUs(Usuario &calificado, Reserva &r, int calificacion,
                           DTFecha fechaSistema) {
   Calificacion cal(fechaSistema, calificacion, calificado, *this, r);
   this->calificaciones.push_back(cal);
+  calificado.calificaciones.push_back(cal);
   return true;
 }
 
 float Usuario::promedioCalificaciones() {
-  if (this->calificaciones.empty()) {
-    return 0.0f;
-  }
   float sum = 0.0f;
+  int count = 0;
   for (Calificacion &c : this->calificaciones) {
-    sum += c.getPuntaje();
+    if (c.getCalificado()->getNickname() == this->nickname) {
+      sum += c.getPuntaje();
+      count++;
+    }
   }
-  return sum / this->calificaciones.size();
+  if (count == 0) {
+    return 5.0f;
+  }
+  return sum / count;
 }

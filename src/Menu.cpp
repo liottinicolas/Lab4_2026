@@ -1,5 +1,6 @@
 #include "../include/Menu.h"
 #include "../include/CargaDatos.h"
+#include "../include/DTDetalleViaje.h"
 #include "../include/DTFecha.h"
 #include "../include/Fabrica.h"
 #include "../include/IControladorFechaActual.h"
@@ -30,11 +31,6 @@ void Menu::altaUsuario() {
   std::getline(std::cin, nombre);
   std::cout << "Ingrese contrasena: ";
   std::getline(std::cin, contrasena);
-  // TODO Filtrado la contraseña
-  if (contrasena.length() < 8) {
-    std::cout << "La contrasena debe tener al menos 8 caracteres.\n";
-    return;
-  }
   std::cout << "Ingrese email: ";
   std::getline(std::cin, email);
 
@@ -65,9 +61,6 @@ void Menu::altaUsuario() {
       std::cout << "3. Auto (Amateur)\n";
       std::cout << "Seleccione el tipo de libreta: ";
       std::cin >> tipoLibreta;
-      // estaba este
-      // std::cin.ignore(std::numeric_limits::max(), '\n');
-      /// pusimos este
       std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
       bool yaExiste = false;
@@ -113,7 +106,6 @@ void Menu::altaUsuario() {
       if (cantLibretas < 4) {
         std::cout << "¿Desea agregar otra libreta? (1: Si, 0: No): ";
         std::cin >> agregarLibreta;
-        // aca tmb modificamos esto
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
       } else {
@@ -147,11 +139,6 @@ void Menu::altaUsuario() {
       std::cout << "Ingrese capacidad: ";
       std::cin >> capacidad;
       std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-      // TODO aca se filtra que la capacidad sea 1 o más.
-      if (capacidad < 1) {
-        std::cout << "La capacidad debe ser mayor a 0.\n";
-        return;
-      }
       std::cout << "Ingrese marca: ";
       std::getline(std::cin, marca);
       std::cout << "Ingrese modelo: ";
@@ -234,19 +221,24 @@ void Menu::altaViaje() {
 void Menu::generarReserva() {
   Fabrica *fabrica = Fabrica::getInstance();
   IControladorUsuario *controladorUsuario = fabrica->getIControladorUsuario();
+  IControladorGestionViajes *controladorGestionViajes =
+      fabrica->getIControladorGestionViajes();
 
   std::set<string> pasajeros = controladorUsuario->listarPasajeros();
   for (string nickname : pasajeros) {
     std::cout << "> " << nickname << "\n";
   }
-  // TODO: Colecion de String = controlador->listarPasajeros()
-  // TODO: Recorrer la colección y mostrar "> xx"
   std::string nickname;
   std::cout << "Ingrese nickname del pasajero: ";
   std::getline(std::cin, nickname);
 
   bool nicknameValido = false;
-  // TODO: Validar nickname en listado
+  for (const string &s : pasajeros) {
+    if (s == nickname) {
+      nicknameValido = true;
+      break;
+    }
+  }
   if (!nicknameValido) {
     std::cout << "Nickname invalido.\n";
     return;
@@ -265,13 +257,14 @@ void Menu::generarReserva() {
   std::cin >> asientos;
   std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
-  // TODO: Coleccion de DTConsultaViaje =
-  // controlador->consultarViajes(DTFecha(dia, mes, anio), origen, destino,
-  // asientos)
-  // TODO: Recorrer la coleccion y mostrar: "> Codigo: xx, Marca: yy, Modelo:
-  // zzz, Conductor: aaa, CalificacionPromedio: qqq, PrecioTotal: eee"
+  std::vector<DTConsultaViaje> viajes =
+      controladorGestionViajes->consultarViajes(DTFecha(dia, mes, anio), origen,
+                                                destino, asientos);
+  for (DTConsultaViaje v : viajes) {
+    std::cout << v << "\n";
+  }
 
-  bool hayViajes = false; // TODO: Validar coleccion vacía
+  bool hayViajes = !viajes.empty();
   if (!hayViajes) {
     std::cout << "No hay viajes disponibles.\n";
     return;
@@ -282,14 +275,19 @@ void Menu::generarReserva() {
   std::cin >> codigo;
   std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
   bool codigoValido = false;
-  // TODO: Validar codigo en listado
+  for (DTConsultaViaje v : viajes) {
+    if (v.getCodigo() == codigo) {
+      codigoValido = true;
+      break;
+    }
+  }
   if (!codigoValido) {
     std::cout << "Codigo invalido.\n";
     return;
   }
 
-  bool reservaOk = false;
-  // TODO: reservaOk = controlador->generarReserva(nickname, codigo, asientos)
+  bool reservaOk =
+      controladorGestionViajes->generarReserva(nickname, codigo, asientos);
   if (reservaOk) {
     std::cout << "Reserva realizada exitosamente.\n";
   } else {
@@ -298,35 +296,63 @@ void Menu::generarReserva() {
 }
 
 void Menu::calificarUsuario() {
-  // TODO: Coleccion de DTUsuario = controlador->listarUsuarios()
-  // TODO: Recorrer la coleccion y mostrar "> Nickname: xx, Nombre: yyy"
+  Fabrica *fabrica = Fabrica::getInstance();
+  IControladorUsuario *controladorUsuario = fabrica->getIControladorUsuario();
+  IControladorGestionViajes *controladorGestionViajes =
+      fabrica->getIControladorGestionViajes();
+
+  std::set<DTUsuario> usuarios = controladorUsuario->listarUsuarios();
+  for (DTUsuario u : usuarios) {
+    std::cout << u << "\n";
+  }
+
   std::string nickname;
   std::cout << "Ingrese su nickname: ";
   std::getline(std::cin, nickname);
   bool nicknameValido = false;
-  // TODO: Validar nickname en listado
+  for (DTUsuario u : usuarios) {
+    if (u.getNickname() == nickname) {
+      nicknameValido = true;
+      break;
+    }
+  }
   if (!nicknameValido) {
     std::cout << "Nickname invalido.\n";
     return;
   }
 
-  // TODO: Coleccion de DTListarViaje = controlador->listarViajes(nickname)
-  // TODO: Recorrer la coleccion y mostrar "> Codigo: xx, Fecha: dd/mm/aaaa,
-  // Origen: zzz, Destino: www, Conductor: aaa"
+  std::vector<DTListarViaje> viajes =
+      controladorGestionViajes->listarViajes(nickname);
+  for (DTListarViaje v : viajes) {
+    std::cout << v << "\n";
+  }
   int codigo;
   std::cout << "Ingrese codigo del viaje: ";
   std::cin >> codigo;
   std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
   bool codigoValido = false;
-  // TODO: Validar codigo en listado
+  for (DTListarViaje v : viajes) {
+    if (v.getCodigo() == codigo) {
+      codigoValido = true;
+      break;
+    }
+  }
   if (!codigoValido) {
     std::cout << "Codigo invalido.\n";
     return;
   }
 
-  // TODO: Coleccion de DTUsuarioViaje =
-  // Controlador->listarUsuariosViaje(codigo)
-  // TODO: Recorrer la coleccion y mostrar "> Nickname: xx, Tipo: yyy"
+  std::vector<DTUsuario> usuariosViaje =
+      controladorGestionViajes->listarUsuariosViaje(codigo);
+  std::set<string> pasajeros = controladorUsuario->listarPasajeros();
+  for (DTUsuario u : usuariosViaje) {
+    std::string tipo = "Conductor";
+    if (pasajeros.find(u.getNickname()) != pasajeros.end()) {
+      tipo = "Pasajero";
+    }
+    std::cout << "> Nickname: " << u.getNickname() << ", Tipo: " << tipo
+              << "\n";
+  }
   std::string nicknameCalificado;
   int calificacion;
   std::cout << "Ingrese nickname del usuario a calificar: ";
@@ -335,15 +361,19 @@ void Menu::calificarUsuario() {
   std::cin >> calificacion;
   std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
   bool nicknameCalificadoValido = false;
-  // TODO: Validar nickname en listado
+  for (DTUsuario u : usuariosViaje) {
+    if (u.getNickname() == nicknameCalificado) {
+      nicknameCalificadoValido = true;
+      break;
+    }
+  }
   if (!nicknameCalificadoValido) {
     std::cout << "Nickname invalido.\n";
     return;
   }
 
-  bool calificacionOk = false;
-  // TODO: calificacionOk = Controlador->calificarUsuario(nicknameCalificado,
-  // calificacion)
+  bool calificacionOk = controladorGestionViajes->calificarUsuario(
+      nicknameCalificado, calificacion);
   if (calificacionOk) {
     std::cout << "Calificacion exitosa.\n";
   } else {
@@ -352,38 +382,43 @@ void Menu::calificarUsuario() {
 }
 
 void Menu::eliminarViaje() {
-  // TODO: Coleccion de DTListarViaje = controlador->listarViajes()
-  // TODO: Recorrer la coleccion y mostrar "> Codigo: xx, Fecha: dd/mm/aaaa,
-  // Origen: zzz, Destino: www, Conductor: aaa"
+  Fabrica *fabrica = Fabrica::getInstance();
+  IControladorGestionViajes *controladorGestionViajes =
+      fabrica->getIControladorGestionViajes();
+
+  std::vector<DTListarViaje> viajes = controladorGestionViajes->listarViajes();
+  for (DTListarViaje v : viajes) {
+    std::cout << v << "\n";
+  }
+
   int codigo;
   std::cout << "Ingrese codigo del viaje a eliminar: ";
   std::cin >> codigo;
   std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
   bool codigoValido = false;
-  // TODO: Validar codigo en listado
+  for (DTListarViaje v : viajes) {
+    if (v.getCodigo() == codigo) {
+      codigoValido = true;
+      break;
+    }
+  }
   if (!codigoValido) {
     std::cout << "Codigo invalido.\n";
     return;
   }
 
-  // TODO: DTDetalleViaje = controlador->detalleViaje(codigo)
-  // TODO: Mostrar detalle del viaje siguiendo el formato
-  //>> Viaje <<
-  //--- Matrícula: aa, Fecha: dd/mm/aaaa, Origen: zzz, Destino: www, Capacidad:
-  // bbb, Precio por asiento: qqq
-  //>> Vehiculo <<
-  //--- Matricula: mm, Capacidad: aa, Marca: bbb, Modelo: ccc, Tipo: ddd
-  //>> Reservas <<
-  //--- AsientosReservados: xx, Fecha: dd/mm/aaaa, Pasajero: aaa
+  DTDetalleViaje detalleViaje = controladorGestionViajes->detalleViaje(codigo);
+  std::cout << detalleViaje << "\n";
+
   int confirmar;
   std::cout << "¿Confirmar eliminacion? (1: Si, 0: No): ";
   std::cin >> confirmar;
   std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
   if (confirmar == 1) {
-    // TODO: controlador->eliminarViaje()
+    controladorGestionViajes->eliminarViaje();
     std::cout << "Viaje eliminado exitosamente.\n";
   } else {
-    // TODO: controlador->cancelarEliminarViaje()
+    controladorGestionViajes->cancelarEliminarViaje();
     std::cout << "Eliminacion cancelada.\n";
   }
 }
@@ -435,7 +470,12 @@ void Menu::mostrarMenu() {
     std::cout << "7. Cargar Datos\n";
     std::cout << "8. Salir\n";
     std::cout << "Ingrese una opcion: ";
-    std::cin >> opcion;
+    // TODO ESTA OPCION NO VA
+    if (!(std::cin >> opcion)) {
+      std::cout << "Se detecto fin de archivo (EOF) o entrada invalida. "
+                   "Saliendo del programa...\n";
+      break;
+    }
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
     switch (opcion) {

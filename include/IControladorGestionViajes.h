@@ -6,6 +6,7 @@
 #include "DTListarViaje.h"
 #include "DTUsuario.h"
 #include "DTVehiculosConductor.h"
+#include "DTDetalleViaje.h"
 #include <set>
 #include <string>
 #include <vector>
@@ -27,8 +28,12 @@ public:
                               int asientos) = 0;
   virtual std::set<DTVehiculosConductor>
   listarVehiculosConductor(std::string nickname) = 0;
-  virtual bool altaViaje(std::string matricula, DTFecha fecha, std::string origen,
-                         std::string destino, int asientos, float precio) = 0;
+  virtual bool altaViaje(std::string matricula, DTFecha fecha,
+                         std::string origen, std::string destino, int asientos,
+                         float precio) = 0;
+  virtual DTDetalleViaje detalleViaje(int codigo) = 0;
+  virtual void eliminarViaje() = 0;
+  virtual void cancelarEliminarViaje() = 0;
 };
 
 #endif

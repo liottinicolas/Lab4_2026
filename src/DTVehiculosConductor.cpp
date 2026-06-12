@@ -19,8 +19,8 @@ bool DTVehiculosConductor::operator<(const DTVehiculosConductor &other) const {
 }
 
 std::ostream& operator<<(std::ostream& os, const DTVehiculosConductor &v) {
-  os << "Matricula: " << v.getMatricula()
-     << ", Marca: " << v.getMarca()
+  os << "> Matricula: " << v.getMatricula()
+     << ", Modelo: " << v.getMarca()
      << ", Capacidad: " << v.getCapacidad();
   return os;
 }

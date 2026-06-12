@@ -20,7 +20,8 @@ public:
     std::string getOrigen();
     std::string getDestino();
     std::string getConductor();
-
 };
+
+std::ostream& operator<<(std::ostream& os, DTListarViaje lv);
 
 #endif

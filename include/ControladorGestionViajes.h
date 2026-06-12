@@ -9,7 +9,6 @@
 #include <string>
 #include <vector>
 
-
 class ControladorGestionViajes : public IControladorGestionViajes {
 private:
   static ControladorGestionViajes *instancia;
@@ -37,6 +36,9 @@ public:
   listarVehiculosConductor(std::string nickname) override;
   bool altaViaje(std::string matricula, DTFecha fecha, std::string origen,
                  std::string destino, int asientos, float precio) override;
+  DTDetalleViaje detalleViaje(int codigo) override;
+  void eliminarViaje() override;
+  void cancelarEliminarViaje() override;
 };
 
 #endif

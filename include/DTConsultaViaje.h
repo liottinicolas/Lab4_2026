@@ -24,4 +24,6 @@ public:
   float getPrecioTotal();
 };
 
+std::ostream& operator<<(std::ostream& os, DTConsultaViaje cv);
+
 #endif
