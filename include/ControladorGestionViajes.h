@@ -41,7 +41,7 @@ public:
   // ==========================================
   // CASO DE USO: Calificar Usuario
   // ==========================================
-  std::vector<DTListarViaje> listarViajes(std::string nickname) override;
+  std::set<DTListarViaje> listarViajes(std::string nickname) override;
   std::vector<DTUsuario> listarUsuariosViaje(int codigo) override;
   bool calificarUsuario(std::string nicknameCalificado,
                         int calificacion) override;
@@ -49,7 +49,7 @@ public:
   // ==========================================
   // CASO DE USO: Eliminar Viaje
   // ==========================================
-  std::vector<DTListarViaje> listarViajes() override;
+  std::set<DTListarViaje> listarViajes() override;
   DTDetalleViaje detalleViaje(int codigo) override;
   void eliminarViaje() override;
   void cancelarEliminarViaje() override;

@@ -20,6 +20,7 @@ public:
     std::string getOrigen();
     std::string getDestino();
     std::string getConductor();
+    bool operator<(const DTListarViaje& other) const;
 };
 
 std::ostream& operator<<(std::ostream& os, DTListarViaje lv);

@@ -6,6 +6,7 @@
 #include "../include/IControladorFechaActual.h"
 #include <iostream>
 #include <limits>
+#include <set>
 #include <string>
 
 void Menu::altaUsuario() {
@@ -321,7 +322,7 @@ void Menu::calificarUsuario() {
     return;
   }
 
-  std::vector<DTListarViaje> viajes =
+  std::set<DTListarViaje> viajes =
       controladorGestionViajes->listarViajes(nickname);
   for (DTListarViaje v : viajes) {
     std::cout << v << "\n";
@@ -386,7 +387,7 @@ void Menu::eliminarViaje() {
   IControladorGestionViajes *controladorGestionViajes =
       fabrica->getIControladorGestionViajes();
 
-  std::vector<DTListarViaje> viajes = controladorGestionViajes->listarViajes();
+  std::set<DTListarViaje> viajes = controladorGestionViajes->listarViajes();
   for (DTListarViaje v : viajes) {
     std::cout << v << "\n";
   }
@@ -497,6 +498,8 @@ void Menu::mostrarMenu() {
       break;
     case 8:
       std::cout << "Saliendo del sistema...\n";
+      // limpiar memoria
+      delete Fabrica::getInstance();
       break;
     default:
       std::cout << "Opcion invalida.\n";

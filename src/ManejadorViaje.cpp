@@ -35,10 +35,13 @@ ManejadorViaje::consultarViajes(DTFecha fecha, std::string origen,
   // 1.1 foreach viaje
   for (auto const &par : viajes) {
     Viaje *v = par.second;
-    // 1.2
+    // 1.2 verifico si el viaje cumple con los requisitos
     bool ok = v->verificarViaje(fecha, origen, destino, asientos);
     if (ok) {
+      // 1.3 si el viaje cumple con los requisitos obtengo los datos del viaje y
+      // lo agrego al vector de resultados
       DTConsultaViaje datosViaje = v->datosViaje();
+      // Retorna el DTConsultaViaje y lo agrega al retorno
       resultado.push_back(datosViaje);
     }
   }
@@ -46,6 +49,7 @@ ManejadorViaje::consultarViajes(DTFecha fecha, std::string origen,
   return resultado;
 }
 
+// Falto en el DCD
 int ManejadorViaje::obtenerCodigo() {
   this->ultimoViaje++;
   return this->ultimoViaje;
@@ -54,10 +58,10 @@ int ManejadorViaje::obtenerCodigo() {
 Viaje *ManejadorViaje::crearViaje(Vehiculo *v, DTFecha fecha,
                                   std::string origen, std::string destino,
                                   int asientos, float precio) {
+  // 5.1.1 obtengo el ultimo codigo del viaje
   int cod = this->obtenerCodigo();
   Viaje *nuevoViaje = new Viaje(cod, fecha, origen, destino, asientos, precio);
-
-  // Se crea un link con v
+  // 5.1.2 Creo un link con v
   nuevoViaje->setVehiculo(v);
 
   // 6.2: add(vi)

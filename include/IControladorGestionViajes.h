@@ -37,7 +37,7 @@ public:
   // ==========================================
   // CASO DE USO: Calificar Usuario
   // ==========================================
-  virtual std::vector<DTListarViaje> listarViajes(std::string nickname) = 0;
+  virtual std::set<DTListarViaje> listarViajes(std::string nickname) = 0;
   virtual std::vector<DTUsuario> listarUsuariosViaje(int codigo) = 0;
   virtual bool calificarUsuario(std::string nicknameCalificado,
                                 int calificacion) = 0;
@@ -45,7 +45,7 @@ public:
   // ==========================================
   // CASO DE USO: Eliminar Viaje
   // ==========================================
-  virtual std::vector<DTListarViaje> listarViajes() = 0;
+  virtual std::set<DTListarViaje> listarViajes() = 0;
   virtual DTDetalleViaje detalleViaje(int codigo) = 0;
   virtual void eliminarViaje() = 0;
   virtual void cancelarEliminarViaje() = 0;

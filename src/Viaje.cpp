@@ -65,14 +65,17 @@ DTListarViaje Viaje::getDTListarViaje(std::string nickConductor) {
 
 bool Viaje::verificarViaje(DTFecha fecha, std::string origen,
                            std::string destino, int asientos) {
+  // verifico si el viaje cumple con los requisitos
   if (!(this->fecha == fecha && this->origen == origen &&
         this->destino == destino)) {
     return false;
   }
 
+  // 1.2*.1* forach reservas del  viaje
   int totalReservados = 0;
   for (std::vector<Reserva *>::iterator it = this->reservas.begin();
        it != this->reservas.end(); ++it) {
+    // 1.2*.1* obtengo los asientos reservados de cada reserva
     totalReservados += (*it)->getAsientosReservados();
   }
 
@@ -110,9 +113,11 @@ std::vector<DTUsuario> Viaje::listaUsuarios(std::string nicknameActor) {
     DTUsuario c = this->vehiculo->ObtenerDTUsCond();
     us.push_back(c);
   }
+  // 2.1 foreach reserva
   if (!this->reservas.empty()) {
     for (Reserva *r : this->reservas) {
       if (nicknameActor != r->getPasajero()->getNickname()) {
+        // 2.2 obtener usuario
         DTUsuario u = r->getPasajero()->getDTUsuario();
         us.push_back(u);
       }
@@ -141,7 +146,11 @@ bool Viaje::calificarUsViaje(Usuario &calificador, Usuario &calificado,
 }
 
 DTConsultaViaje Viaje::datosViaje() {
-  return this->vehiculo->datosVehiculoYChofer(this->codigo, this->precio);
+  // 1.3.1.1 obtengo los datos del vehiculo y el chofer
+  DTConsultaViaje dtv =
+      this->vehiculo->datosVehiculoYChofer(this->codigo, this->precio);
+  // 1.3.1.2 obtengo los datos del vehiculo y el chofer
+  return dtv;
 }
 
 DTDetalleViaje Viaje::getDTDetalleViaje() {

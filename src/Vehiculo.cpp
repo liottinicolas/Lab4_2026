@@ -26,6 +26,7 @@ std::string Vehiculo::getModelo() { return this->modelo; }
 TipoVehiculo Vehiculo::getTipo() { return this->tipo; }
 
 bool Vehiculo::hayViajesConductor(DTFecha fecha) {
+  // 4.1 hay viaje conductor
   return this->conductor->hayViajesFechaConductor(fecha);
 }
 
@@ -69,9 +70,11 @@ DTUsuario Vehiculo::ObtenerDTUsCond() {
 }
 
 DTConsultaViaje Vehiculo::datosVehiculoYChofer(int codigo, float precio) {
-  return DTConsultaViaje(codigo, this->marca, this->modelo,
-                         this->conductor->getNombre(),
-                         this->conductor->promedioCalificaciones(), precio);
+  // 1.3.1.1.1 y .2: dtv retornado
+  DTConsultaViaje dtv = DTConsultaViaje(
+      codigo, this->marca, this->modelo, this->conductor->getNombre(),
+      this->conductor->promedioCalificaciones(), precio);
+  return dtv;
 }
 
 void Vehiculo::removerViaje(Viaje *vi) {
@@ -84,5 +87,6 @@ void Vehiculo::removerViaje(Viaje *vi) {
 }
 
 DTDetalleVehiculo Vehiculo::getDTDetalleVehiculo() {
-  return DTDetalleVehiculo(this->matricula, this->capacidad, this->marca, this->modelo, this->tipo);
+  return DTDetalleVehiculo(this->matricula, this->capacidad, this->marca,
+                           this->modelo, this->tipo);
 }
