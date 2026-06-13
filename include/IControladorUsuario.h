@@ -12,6 +12,9 @@ using namespace std;
 
 class IControladorUsuario {
 public:
+  // ==========================================
+  // CASO DE USO: Alta de Usuario
+  // ==========================================
   virtual bool altaPasajero(string nickname, string nombre, string contrasena,
                             string email, string ci) = 0;
 
@@ -22,9 +25,15 @@ public:
                                 int capacidad, string marca, string modelo,
                                 TipoVehiculo tipo) = 0;
 
-  virtual set<DTUsuario> listarUsuarios() = 0;
-
+  // ==========================================
+  // CASO DE USO: Generar Reserva
+  // ==========================================
   virtual set<string> listarPasajeros() = 0;
+
+  // ==========================================
+  // CASO DE USO: Calificar Usuario
+  // ==========================================
+  virtual set<DTUsuario> listarUsuarios() = 0;
 
   virtual ~IControladorUsuario() {}
 };

@@ -8,7 +8,9 @@ ControladorUsuario::ControladorUsuario() {
   mu = ManejadorUsuario::getInstancia();
 }
 
-// ALTA USUARIOS
+// ==========================================
+// CASO DE USO: Alta de Usuario
+// ==========================================
 
 bool ControladorUsuario::altaPasajero(string nickname, string nombre,
                                       string contrasena, string email,
@@ -34,24 +36,6 @@ bool ControladorUsuario::altaConductor(string nickname, string nombre,
     return agregado;
   }
   return agregado;
-}
-
-std::set<DTUsuario> ControladorUsuario::listarUsuarios() {
-  std::set<DTUsuario> lista;
-  ManejadorUsuario *mu = ManejadorUsuario::getInstancia();
-
-  // 1: colU := obtenerUsuarios()
-  std::map<std::string, Usuario *> usuarios = mu->obtenerUsuarios();
-
-  // 2*: [foreach] u := next()
-  for (auto const &par : usuarios) {
-    Usuario *u = par.second;
-
-    // 2.1*: dtu := getDTUsuario()
-    lista.insert(u->getDTUsuario());
-  }
-
-  return lista;
 }
 
 int ControladorUsuario::registrarVehiculo(string nickname, string matricula,
@@ -93,6 +77,10 @@ int ControladorUsuario::registrarVehiculo(string nickname, string matricula,
   return 0;
 }
 
+// ==========================================
+// CASO DE USO: Generar Reserva
+// ==========================================
+
 std::set<string> ControladorUsuario::listarPasajeros() {
   std::set<string> pasajeros;
   std::map<std::string, Usuario *> usuarios = mu->obtenerUsuarios();
@@ -103,4 +91,26 @@ std::set<string> ControladorUsuario::listarPasajeros() {
     }
   }
   return pasajeros;
+}
+
+// ==========================================
+// CASO DE USO: Calificar Usuario
+// ==========================================
+
+std::set<DTUsuario> ControladorUsuario::listarUsuarios() {
+  std::set<DTUsuario> lista;
+  ManejadorUsuario *mu = ManejadorUsuario::getInstancia();
+
+  // 1: colU := obtenerUsuarios()
+  std::map<std::string, Usuario *> usuarios = mu->obtenerUsuarios();
+
+  // 2*: [foreach] u := next()
+  for (auto const &par : usuarios) {
+    Usuario *u = par.second;
+
+    // 2.1*: dtu := getDTUsuario()
+    lista.insert(u->getDTUsuario());
+  }
+
+  return lista;
 }

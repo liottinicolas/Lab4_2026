@@ -32,7 +32,7 @@ bool Usuario::ExisteCal(Usuario &u, Reserva &r) {
   if (!califRealizadas.empty()) {
     auto it = califRealizadas.begin();
     bool a = false;
-    while (!a && it != calificaciones.end()) {
+    while (!a && it != califRealizadas.end()) {
       if ((it->getCalificado()->getNickname() == u.getNickname()) &&
           (r.getViaje()->getCodigo() ==
            it->getReserva()->getViaje()->getCodigo())) {
@@ -58,11 +58,9 @@ bool Usuario::calificarUs(Usuario &calificado, Reserva &r, int calificacion,
 float Usuario::promedioCalificaciones() {
   float sum = 0.0f;
   int count = 0;
-  for (Calificacion &c : this->calificaciones) {
-    if (c.getCalificado()->getNickname() == this->nickname) {
-      sum += c.getPuntaje();
-      count++;
-    }
+  for (Calificacion &c : this->califRecibidas) {
+    sum += c.getPuntaje();
+    count++;
   }
   if (count == 0) {
     return 5.0f;

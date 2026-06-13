@@ -11,17 +11,27 @@ private:
 public:
   ControladorUsuario();
 
+  // ==========================================
+  // CASO DE USO: Alta de Usuario
+  // ==========================================
   bool altaPasajero(string nickname, string nombre, string contrasena,
-                    string email, string ci);
+                    string email, string ci) override;
 
   bool altaConductor(string nickname, string nombre, string contrasena,
-                     string email, set<TipoLibreta> libretas);
+                     string email, set<TipoLibreta> libretas) override;
 
   int registrarVehiculo(string nickname, string matricula, int capacidad,
-                        string marca, string modelo, TipoVehiculo tipo);
+                        string marca, string modelo, TipoVehiculo tipo) override;
 
-  set<DTUsuario> listarUsuarios();
-  set<string> listarPasajeros();
+  // ==========================================
+  // CASO DE USO: Generar Reserva
+  // ==========================================
+  set<string> listarPasajeros() override;
+
+  // ==========================================
+  // CASO DE USO: Calificar Usuario
+  // ==========================================
+  set<DTUsuario> listarUsuarios() override;
 };
 
 #endif

@@ -17,7 +17,10 @@ ControladorGestionViajes::ControladorGestionViajes() {
   codigoActor = -1;
   nicknameActor = "";
 }
-// CASO DE USO ALTA VIAJE
+// ==========================================
+// CASO DE USO: Alta de Viaje
+// ==========================================
+
 std::set<DTVehiculosConductor>
 ControladorGestionViajes::listarVehiculosConductor(std::string nickname) {
   // 1. ya se instanció con el controlador la instancia de manejador
@@ -27,40 +30,37 @@ ControladorGestionViajes::listarVehiculosConductor(std::string nickname) {
   return c->listarVehiculos();
 }
 
-std::vector<DTListarViaje>
-ControladorGestionViajes::listarViajes(std::string nickname) {
-  // 0: guardar el nickname en memoria
-  this->nicknameActor = nickname;
+bool ControladorGestionViajes::altaViaje(std::string matricula, DTFecha fecha,
+                                         std::string origen,
+                                         std::string destino, int asientos,
+                                         float precio) {
+  // 1 obtengo la instancia
+  ManejadorVehiculos *mve = ManejadorVehiculos::getInstancia();
+  // 2 obtengo el vehiculo
+  Vehiculo *v = mve->find(matricula);
 
-  // 1: u := find(nickname)
-  Usuario *u = mu->find(nickname);
-
-  if (u != nullptr) {
-    // 2: dtViajes := obtenerDTListarViajes()
-    std::vector<DTListarViaje> res = u->obtenerDTListarViajes();
-    std::sort(res.begin(), res.end(), [](DTListarViaje &a, DTListarViaje &b) {
-      return a.getCodigo() < b.getCodigo();
-    });
-    return res;
-  }
-  return std::vector<DTListarViaje>();
-}
-
-std::vector<DTListarViaje> ControladorGestionViajes::listarViajes() {
-  std::vector<DTListarViaje> lista;
-
-  std::map<int, Viaje *> todosLosViajes = mv->obtenerViajes();
-
-  for (auto const &par : todosLosViajes) {
-    Viaje *v = par.second;
-
-    std::string nickConductor = v->getNicknameConductor();
-
-    lista.push_back(v->getDTListarViaje(nickConductor));
+  int capacidad = v->getCapacidad();
+  // 3 si asientos es mayor que la capacidad retorno false
+  if (asientos > capacidad) {
+    return false;
   }
 
-  return lista;
+  // 4 verifico si hay viajes con la fecha indicada
+  // si hay viajes con la misma fecha retorno false
+  bool hayViajesFecha = v->hayViajesConductor(fecha);
+  if (hayViajesFecha) {
+    return false;
+  }
+
+  // 5. Crea la instancia de Viaje (en el manejador)
+  Viaje *cvi = mv->crearViaje(v, fecha, origen, destino, asientos, precio);
+  v->agregarViaje(cvi);
+  return true;
 }
+
+// ==========================================
+// CASO DE USO: Generar Reserva
+// ==========================================
 
 std::vector<DTConsultaViaje>
 ControladorGestionViajes::consultarViajes(DTFecha fecha, std::string origen,
@@ -69,36 +69,6 @@ ControladorGestionViajes::consultarViajes(DTFecha fecha, std::string origen,
   // 1 TODO TERMINAR.
   resultado = mv->consultarViajes(fecha, origen, destino, asientos);
   return resultado;
-}
-
-std::vector<DTUsuario>
-ControladorGestionViajes::listarUsuariosViaje(int codigo) {
-  this->codigoActor = codigo;
-  Viaje *vi = mv->find(codigo); // 1. Busca el viaje en el manejador
-
-  return vi->listaUsuarios(
-      this->nicknameActor); // 2. Devuelve el set de los usuarios del viaje
-}
-
-bool ControladorGestionViajes::calificarUsuario(std::string nicknameCalificado,
-                                                int calificacion) {
-  if (codigoActor == -1 || nicknameActor == "") {
-    return false;
-  }
-  Viaje *vi = mv->find(codigoActor);    // 1. Busca la instancia del viaje
-  Usuario *u = mu->find(nicknameActor); // 2. Busca la instancia del calificador
-  Usuario *uc =
-      mu->find(nicknameCalificado); // 3. Busca la instancia del calificado
-  if (vi == nullptr || u == nullptr || uc == nullptr) {
-    this->nicknameActor = "";
-    this->codigoActor = -1;
-    return false;
-  }
-  bool ok =
-      vi->calificarUsViaje(*u, *uc, calificacion); // 4. Califica el usuario
-  this->nicknameActor = "";
-  this->codigoActor = -1;
-  return ok;
 }
 
 bool ControladorGestionViajes::generarReserva(std::string nickname, int codigo,
@@ -136,32 +106,77 @@ bool ControladorGestionViajes::generarReserva(std::string nickname, int codigo,
   return true;
 }
 
-bool ControladorGestionViajes::altaViaje(std::string matricula, DTFecha fecha,
-                                         std::string origen,
-                                         std::string destino, int asientos,
-                                         float precio) {
-  // 1 obtengo la instancia
-  ManejadorVehiculos *mve = ManejadorVehiculos::getInstancia();
-  // 2 obtengo el vehiculo
-  Vehiculo *v = mve->find(matricula);
+// ==========================================
+// CASO DE USO: Calificar Usuario
+// ==========================================
 
-  int capacidad = v->getCapacidad();
-  // 3 si asientos es mayor que la capacidad retorno false
-  if (asientos > capacidad) {
+std::vector<DTListarViaje>
+ControladorGestionViajes::listarViajes(std::string nickname) {
+  // 0: guardar el nickname en memoria
+  this->nicknameActor = nickname;
+
+  // 1: u := find(nickname)
+  Usuario *u = mu->find(nickname);
+
+  if (u != nullptr) {
+    // 2: dtViajes := obtenerDTListarViajes()
+    std::vector<DTListarViaje> res = u->obtenerDTListarViajes();
+    std::sort(res.begin(), res.end(), [](DTListarViaje &a, DTListarViaje &b) {
+      return a.getCodigo() < b.getCodigo();
+    });
+    return res;
+  }
+  return std::vector<DTListarViaje>();
+}
+
+std::vector<DTUsuario>
+ControladorGestionViajes::listarUsuariosViaje(int codigo) {
+  this->codigoActor = codigo;
+  Viaje *vi = mv->find(codigo); // 1. Busca el viaje en el manejador
+
+  return vi->listaUsuarios(
+      this->nicknameActor); // 2. Devuelve el set de los usuarios del viaje
+}
+
+bool ControladorGestionViajes::calificarUsuario(std::string nicknameCalificado,
+                                                int calificacion) {
+  if (codigoActor == -1 || nicknameActor == "") {
     return false;
   }
-
-  // 4 verifico si hay viajes con la fecha indicada
-  // si hay viajes con la misma fecha retorno false
-  bool hayViajesFecha = v->hayViajesConductor(fecha);
-  if (hayViajesFecha) {
+  Viaje *vi = mv->find(codigoActor);    // 1. Busca la instancia del viaje
+  Usuario *u = mu->find(nicknameActor); // 2. Busca la instancia del calificador
+  Usuario *uc =
+      mu->find(nicknameCalificado); // 3. Busca la instancia del calificado
+  if (vi == nullptr || u == nullptr || uc == nullptr) {
+    this->nicknameActor = "";
+    this->codigoActor = -1;
     return false;
   }
+  bool ok =
+      vi->calificarUsViaje(*u, *uc, calificacion); // 4. Califica el usuario
+  this->nicknameActor = "";
+  this->codigoActor = -1;
+  return ok;
+}
 
-  // 5. Crea la instancia de Viaje (en el manejador)
-  Viaje *cvi = mv->crearViaje(v, fecha, origen, destino, asientos, precio);
-  v->agregarViaje(cvi);
-  return true;
+// ==========================================
+// CASO DE USO: Eliminar Viaje
+// ==========================================
+
+std::vector<DTListarViaje> ControladorGestionViajes::listarViajes() {
+  std::vector<DTListarViaje> lista;
+
+  std::map<int, Viaje *> todosLosViajes = mv->obtenerViajes();
+
+  for (auto const &par : todosLosViajes) {
+    Viaje *v = par.second;
+
+    std::string nickConductor = v->getNicknameConductor();
+
+    lista.push_back(v->getDTListarViaje(nickConductor));
+  }
+
+  return lista;
 }
 
 DTDetalleViaje ControladorGestionViajes::detalleViaje(int codigo) {

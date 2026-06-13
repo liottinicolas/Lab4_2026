@@ -1,32 +1,45 @@
-CC = g++
-CFLAGS = -Iinclude -Wall -Wextra -std=c++11
+CXX = g++
+CXXFLAGS = -std=c++11 -Wall -Wextra -I./include
+SRCDIR = src
+OBJDIR = obj
+TARGET = lab4
 
-# Busca todos los archivos .cpp en la carpeta src
-SRCS = $(wildcard src/*.cpp)
+# Comando de Valgrind
+#VALGRIND = valgrind --leak-check=full --show-leak-kinds=definite
+VALGRIND = valgrind --leak-check=full --show-leak-kinds=all
 
-# Convierte las rutas de .cpp a .o (ej. src/main.cpp -> src/main.o)
-OBJS = $(SRCS:.cpp=.o)
+# Encontrar todos los archivos .cpp en src/
+SOURCES = $(wildcard $(SRCDIR)/*.cpp)
+OBJECTS = $(SOURCES:$(SRCDIR)/%.cpp=$(OBJDIR)/%.o)
 
-# Nombre del archivo ejecutable de salida
-MAIN = principal.exe
+# Regla principal
+$(TARGET): $(OBJECTS)
+	$(CXX) $(OBJECTS) -o $(TARGET)
 
-.PHONY: all clean
+# Regla para compilar archivos .cpp a .o
+$(OBJDIR)/%.o: $(SRCDIR)/%.cpp
+	@mkdir -p $(OBJDIR)
+	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-# Regla por defecto para compilar todo
-all: $(MAIN)
-	@echo ====================================
-	@echo   Programa compilado con éxito.
-	@echo   Ejecútalo con: ./principal.exe
-	@echo ====================================
-
-# Enlaza los objetos (.o) para crear el ejecutable
-$(MAIN): $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) -o $(MAIN)
-
-# Compila cada archivo fuente .cpp a su correspondiente archivo objeto .o
-src/%.o: src/%.cpp
-	$(CC) $(CFLAGS) -c $< -o $@
-
-# Limpia los archivos temporales de compilación y el ejecutable
+# Limpiar archivos compilados
 clean:
-	rm -f src/*.o $(MAIN)
+	rm -rf $(OBJDIR) $(TARGET)
+
+# Ejecutar el programa
+run: $(TARGET)
+	./$(TARGET)
+
+# **Analizar con Valgrind**
+check: $(TARGET)
+	$(VALGRIND) ./$(TARGET)
+
+# Regla para mostrar ayuda
+help:
+	@echo "Comandos disponibles:"
+	@echo "  make        - Compilar el proyecto"
+	@echo "  make run    - Compilar y ejecutar"
+	@echo "  make check  - Ejecutar con Valgrind"
+	@echo "  make clean  - Limpiar archivos compilados"
+	@echo "  make help   - Mostrar esta ayuda"
+
+.PHONY: clean run check help

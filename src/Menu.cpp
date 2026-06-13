@@ -470,12 +470,7 @@ void Menu::mostrarMenu() {
     std::cout << "7. Cargar Datos\n";
     std::cout << "8. Salir\n";
     std::cout << "Ingrese una opcion: ";
-    // TODO ESTA OPCION NO VA
-    if (!(std::cin >> opcion)) {
-      std::cout << "Se detecto fin de archivo (EOF) o entrada invalida. "
-                   "Saliendo del programa...\n";
-      break;
-    }
+    std::cin >> opcion;
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
     switch (opcion) {

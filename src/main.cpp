@@ -1,9 +1,7 @@
 #include "../include/Menu.h"
-#include "../include/Fabrica.h"
 
 int main() {
-    Menu menu;
-    menu.mostrarMenu();
-    delete Fabrica::getInstance();
-    return 0;
+  Menu menu;
+  menu.mostrarMenu();
+  return 0;
 }
