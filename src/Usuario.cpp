@@ -29,8 +29,8 @@ DTUsuario Usuario::getDTUsuario() {
 }
 
 bool Usuario::ExisteCal(Usuario &u, Reserva &r) {
-  if (!calificaciones.empty()) {
-    auto it = calificaciones.begin();
+  if (!califRealizadas.empty()) {
+    auto it = califRealizadas.begin();
     bool a = false;
     while (!a && it != calificaciones.end()) {
       if ((it->getCalificado()->getNickname() == u.getNickname()) &&
@@ -50,8 +50,8 @@ bool Usuario::ExisteCal(Usuario &u, Reserva &r) {
 bool Usuario::calificarUs(Usuario &calificado, Reserva &r, int calificacion,
                           DTFecha fechaSistema) {
   Calificacion cal(fechaSistema, calificacion, calificado, *this, r);
-  this->calificaciones.push_back(cal);
-  calificado.calificaciones.push_back(cal);
+  this->califRealizadas.push_back(cal);
+  calificado.califRecibidas.push_back(cal);
   return true;
 }
 

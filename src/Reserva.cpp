@@ -53,7 +53,8 @@ void Reserva::setPasajero(Pasajero* p) {
 bool Reserva::calificarUsRes(Usuario& calificador, Usuario& calificado, int calificacion){
     bool a = calificador.ExisteCal(calificado, *this);
     if(!a) {
-        DTFecha fechaSistema = ControladorFechaActual::getInstance()->getFecha();
+        ControladorFechaActual* controlFecha = ControladorFechaActual::getInstance();
+        DTFecha fechaSistema = controlFecha->getFecha();
         calificador.calificarUs(calificado, *this, calificacion, fechaSistema);
     }
     return !a;
