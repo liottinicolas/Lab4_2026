@@ -14,7 +14,7 @@ protected:
     std::string contrasena;
     std::string email;
     std::vector<Calificacion> califRealizadas;
-    std::vector<Calificacion> califRecibidas
+    std::vector<Calificacion> califRecibidas;
 
 public:
     Usuario(std::string nickname, std::string nombre, std::string contrasena, std::string email);
